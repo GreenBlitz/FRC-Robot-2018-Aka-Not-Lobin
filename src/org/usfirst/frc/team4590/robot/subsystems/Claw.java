@@ -1,17 +1,20 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
+import org.usfirst.frc.team4590.robot.commands.claw.CloseClaw;
+import org.usfirst.frc.team4590.robot.commands.claw.RawValuesToClaw;
 import org.usfirst.frc.team4590.utils.SmartTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends Subsystem {
 
 	private static Claw instance;
 	
-	private static double defaultPower = 0.2;
+	private static double defaultPower = 0.3;
 //	private static int currentLimit = 0;
 	
 	private SmartTalon motor;
@@ -23,6 +26,7 @@ public class Claw extends Subsystem {
 	
 	public static void init() {
 		instance = new Claw();
+
 	}
 	
 	private Claw() {
@@ -34,11 +38,16 @@ public class Claw extends Subsystem {
 //		SmartDashboard.putNumber("Claw current limit", currentLimit);
 	}
 	
-    public void initDefaultCommand() {}
+    public void initDefaultCommand() {
+//    	setDefaultCommand(new CloseClaw());
+    	//setDefaultCommand(new RawValuesToClaw());
+    }
     
     public void update() {
     	SmartDashboard.putString("Claw current command", getCurrentCommandName());
-    	defaultPower = SmartDashboard.getNumber("Claw powe", defaultPower);
+    	defaultPower = SmartDashboard.getNumber("Claw power", defaultPower);
+    	SmartDashboard.putBoolean("Claw isOpen", isOpen());
+    	SmartDashboard.putBoolean("Claw isClosed", isClosed());
 //    	int tmpCurrentLimit = (int) SmartDashboard.getNumber("Claw current limit", currentLimit);
 //    	if (tmpCurrentLimit != currentLimit) {
 //    		currentLimit = tmpCurrentLimit;
@@ -47,7 +56,7 @@ public class Claw extends Subsystem {
     }
     
     public static double getDefaultPower() {
-    	return defaultPower;
+    	return -defaultPower;
     }
     
     public void setPower(double power) {
@@ -65,4 +74,8 @@ public class Claw extends Subsystem {
     public boolean isClosed() {
     	return closedMicroswitch.get();
     }
+
+	public SmartTalon getMotor() {
+		return motor;
+	}
 }

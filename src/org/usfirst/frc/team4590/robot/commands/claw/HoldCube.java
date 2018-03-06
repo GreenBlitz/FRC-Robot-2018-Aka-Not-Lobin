@@ -4,7 +4,7 @@ import org.usfirst.frc.team4590.robot.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class HoldCube extends Command implements ClosingClawCommand {
+class HoldCube extends Command implements ClosingClawCommand {
 
 	HoldCube() {
 		requires(Claw.getInstance());

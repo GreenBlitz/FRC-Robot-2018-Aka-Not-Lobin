@@ -1,11 +1,8 @@
 package org.usfirst.frc.team4590.robot.commands.intake;
 
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
 import org.usfirst.frc.team4590.robot.subsystems.Intake;
-import org.usfirst.frc.team4590.utils.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ShootToSwitch extends Command {
 
@@ -31,6 +28,5 @@ public class ShootToSwitch extends Command {
     
     protected void end() {
     	Intake.getInstance().stop();
-    	Scheduler.getInstance().add(new MovePitcherToState(PitcherState.PLATE));
     }
 }

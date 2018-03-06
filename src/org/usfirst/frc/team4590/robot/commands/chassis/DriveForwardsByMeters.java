@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutput {
 	private static final double ABSOLUTE_TOLARENCE = 10d/100,					
-								ROTATION_SPEED = 2,
+								ROTATION_SPEED = 2.5,
 								kP = 3,
 								kI = 0,
 								kD = 0;
@@ -21,31 +21,38 @@ public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutp
 	private double m_meters, m_angle;
 	private long m_onTarget = -1;
 	private boolean m_shouldStop;
-	
-	public DriveForwardsByMeters(double meters, double angle, boolean shouldStop) {
+	private boolean m_resetGyro;
+	public DriveForwardsByMeters(double meters, double angle, boolean shouldStop, boolean resetGyro) {
 		requires(Chassis.getInstance());
     	m_meters = meters;
     	m_angle = angle;
     	m_shouldStop = shouldStop;
+    	m_resetGyro = resetGyro;
 	}
-	 
+
+	public DriveForwardsByMeters(double meters, boolean shouldStop, boolean resetGyro) {
+    	this(meters, 0, true, resetGyro);
+    }    
+	
     public DriveForwardsByMeters(double meters) {
-    	this(meters, 0, true);
+    	this(meters, 0, true, true);
     }
     
     public DriveForwardsByMeters(double meters, boolean shouldStop) {
-    	this(meters, 0, shouldStop);
+    	this(meters, 0, shouldStop, true);
     }
     
     protected void initialize() {
     	System.out.println("Init DriveStraight to: " + m_meters);
-    	Chassis.getInstance().resetSensors();
+    	Chassis.getInstance().resetEncoders();
     	m_controller = new PIDController(kP, kI, kD, this, this);
     	m_controller.setAbsoluteTolerance(ABSOLUTE_TOLARENCE);
     	m_controller.setSetpoint(m_meters);
     	SmartDashboard.putNumber("Trying to reach", m_controller.getSetpoint());
     	m_controller.setOutputRange(-0.6, 0.6);
-    	Chassis.getInstance().resetSensors();
+    	Chassis.getInstance().resetEncoders();
+    	if (m_resetGyro)
+    		Chassis.getInstance().resetGyro();
     	m_controller.enable();
     	m_onTarget = -1;
     }
@@ -56,12 +63,11 @@ public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutp
         if (!m_controller.onTarget())
         	m_onTarget = -1;
         boolean ret = m_controller.onTarget() && (System.currentTimeMillis() - m_onTarget >= TIME_ON_TARGET);
-    	if (ret){
+    	if (ret) {
     		SmartDashboard.putNumber("Encoders", Chassis.getInstance().getDistance());
     		SmartDashboard.putNumber("Encoders 2", Chassis.getInstance().getAngle());
-    		return true;
-    	} else 
-    	return false;
+    	}  
+    	return ret;
     }
 
     protected void end() {

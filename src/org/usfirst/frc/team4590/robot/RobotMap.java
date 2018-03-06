@@ -6,9 +6,7 @@ import edu.wpi.first.wpilibj.SPI;
 public class RobotMap {
 	//Joysticks
 	public static final int MAINJS_ID = 0,
-							MAINJS_VIRTUAL_ID = 0,
-							SIDEJS_ID = 0,
-							SIDEJS_VIRTUAL_ID = 0;
+							SIDEJS_ID = 2;
 	
 	//Motor & Sensor ports
 	//Chassis
@@ -41,19 +39,20 @@ public class RobotMap {
 	
 	//Claw
 	public static final int CLAW_MOTOR_PORT = 7,
-							CLAW_CLOSED_MICROSWITCH_PORT = 6,
-							CLAW_OPEN_MICROSWITCH_PORT = 7;
+							CLAW_CLOSED_MICROSWITCH_PORT = 2,
+							CLAW_OPEN_MICROSWITCH_PORT = 3;
 	
 	//Intake
 	public static final int INTAKE_WHEELS_MOTOR_PORT = 6;
 	
 	//Pitcher
 	public static final int PITCHER_MOTOR_PORT = 5,
-							PITCHER_POTENTIOMETER_PORT = 0;
+							PITCHER_POTENTIOMETER_PORT = 1;
 	
 	//Climber
 	public static final int CLIMBER_MOTOR_PORT = 4,
-							CLIMBER_MICROSWITCH_PORT = 0;
+							CLIMBER_TOP_MICROSWITCH_PORT = 4,
+							CLIMBER_BOTTOM_MICROSWITCH_PORT = 5;
 	
 	//Enum values
 	//Pitcher
@@ -69,6 +68,6 @@ public class RobotMap {
 							   SHOOTER_ROTATION_RIGHT_VALUE = 0;
 	
 	//Shifter
-	public static final DoubleSolenoid.Value SHIFTER_SPEED_VALUE = DoubleSolenoid.Value.kReverse,
-											 SHIFTER_POWER_VALUE = DoubleSolenoid.Value.kForward;
+	public static final DoubleSolenoid.Value SHIFTER_SPEED_VALUE = DoubleSolenoid.Value.kForward,
+											 SHIFTER_POWER_VALUE = DoubleSolenoid.Value.kReverse;
 }

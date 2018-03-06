@@ -15,7 +15,7 @@ class HoldPitcherInState extends Command implements PitcherCommand {
 	private PitcherState m_state;
 	private boolean onCollectOrPlate;
 	
-    public HoldPitcherInState(PitcherState state) {
+    HoldPitcherInState(PitcherState state) {
     	requires(Pitcher.getInstance());
     	onCollectOrPlate = state == PitcherState.COLLECT || state == PitcherState.PLATE;
     	m_state = state;

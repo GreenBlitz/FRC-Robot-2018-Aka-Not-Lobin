@@ -6,6 +6,7 @@ import org.usfirst.frc.team4590.robot.commands.pitcher.PitcherCommand;
 import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartTalon;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,6 +28,7 @@ public class Pitcher extends Subsystem {
 								
 	private SmartTalon motor;
 	private AnalogPotentiometer potentiometer;
+	private AnalogInput analog;
 	
 	public static Pitcher getInstance() {
 		return instance;
@@ -38,17 +40,19 @@ public class Pitcher extends Subsystem {
 	
 	private Pitcher() {
 		motor = new SmartTalon(RobotMap.PITCHER_MOTOR_PORT);
-		potentiometer = new AnalogPotentiometer(RobotMap.PITCHER_POTENTIOMETER_PORT);
-		UP_STATE = potentiometer.get();
-		DOWN_STATE = UP_STATE - 0.693;
+		analog = new AnalogInput(RobotMap.PITCHER_POTENTIOMETER_PORT);
+		potentiometer = new AnalogPotentiometer(analog);
+		UP_STATE = 0.172; //1.0005
+		DOWN_STATE = 0.782;
 	}
 
-    public void initDefaultCommand() {
-    	setDefaultCommand(new MovePitcherToState(PitcherState.PLATE));
-    }
+    public void initDefaultCommand() {}
     
     public void update() {
     	SmartDashboard.putString("Pitcher current command", getCurrentCommandName());
+    	SmartDashboard.putNumber("analoginput raw voltage", analog.getVoltage());
+    	SmartDashboard.putNumber("analog raw value", analog.getValue());
+    	SmartDashboard.putNumber("Potentiometer raw value", potentiometer.get());
     	SmartDashboard.putNumber("Pitcher currentAngle", getPosition()*180);
     	SmartDashboard.putNumber("Pitcher currentPosition", getPosition());
     	SmartDashboard.putNumber("Pitcher toPosition", getCurrentCommand() instanceof MovePitcherToState ? 

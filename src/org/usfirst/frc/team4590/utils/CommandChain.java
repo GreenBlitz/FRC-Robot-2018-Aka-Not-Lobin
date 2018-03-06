@@ -8,6 +8,7 @@ public class CommandChain extends Command {
 
 	private final Vector<ParallelCommand> m_commands = new Vector<ParallelCommand>();
 	private int m_currentCommand = 0;
+	private boolean m_hasRan = false;
 	
 	protected void addCommand(Command toRun) {
 		m_commands.add(new ParallelCommand(toRun));
@@ -41,8 +42,15 @@ public class CommandChain extends Command {
 
 	@Override
 	protected void initialize() {
+		if (!m_hasRan){
+			m_hasRan = true;
+			onFirstRun();
+		}
 		m_currentCommand = 0;
 		m_commands.get(m_currentCommand).runCommands();
+	}
+	
+	protected void onFirstRun(){
 	}
 	
 	@Override

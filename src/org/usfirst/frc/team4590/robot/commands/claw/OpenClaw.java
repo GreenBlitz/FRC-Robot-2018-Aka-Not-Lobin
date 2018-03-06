@@ -17,7 +17,7 @@ public class OpenClaw extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return Claw.getInstance().isOpen();
+		return false;
 	}
 	
 	@Override

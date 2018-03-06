@@ -22,6 +22,6 @@ public class ClimbUp extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 }

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CloseClaw extends Command implements ClosingClawCommand {
 	
 	public CloseClaw() {
-		super(0.5);
+		//super(); //0
 		requires(Claw.getInstance());
 	}
 
@@ -18,7 +18,7 @@ public class CloseClaw extends Command implements ClosingClawCommand {
 
 	@Override
 	protected boolean isFinished() {
-		return Claw.getInstance().isClosed() || isTimedOut();
+		return false;
 	}
 	
 	@Override
