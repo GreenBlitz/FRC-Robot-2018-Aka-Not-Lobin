@@ -10,32 +10,15 @@ public class RobotMap {
 	
 	//Motor & Sensor ports
 	//Chassis
-	public static final int CHASSIS_FRONT_LEFT_MOTOR_PORT = 0,
-							CHASSIS_REAR_LEFT_MOTOR_PORT = 1,
+	public static final int CHASSIS_FRONT_LEFT_MOTOR_PORT = 3, //0
+							CHASSIS_REAR_LEFT_MOTOR_PORT = 8,
 							CHASSIS_FRONT_RIGHT_MOTOR_PORT = 2,
-							CHASSIS_REAR_RIGHT_MOTOR_PORT = 3;
+							CHASSIS_REAR_RIGHT_MOTOR_PORT = 10;
 	public static final SPI.Port CHASSIS_GYRO_PORT = SPI.Port.kMXP;
 	
 	//Shifter
 	public static final int SHIFTER_SOLENOID_FORWARD_PORT = 2,
 							SHIFTER_SOLENOID_REVERSE_PORT = 3;
-	
-	//Shooter
-	public static final int SHOOTER_WINDER_MOTOR_PORT = 0,
-							SHOOTER_BOTTOM_MICROSWITCH_PORT = 0,
-							SHOOTER_ROPE_MICROSWITCH_PORT = 0;
-							
-		
-	//Shooter Rotator
-	public static final int ROTATOR_MOTOR_PORT = 0,
-							ROTATOR_POTENTIOMETER_PORT = 0,
-							ROTATOR_MIDDLE_MICROSWITCH_PORT = 0,
-							ROTATOR_LEFT_MICROSWITCH_PORT = 0,
-							ROTATOR_RIGHT_MICROSWITCH_PORT = 0;
-	
-	//Shooter Pin
-	public static final int PIN_MOTOR_PORT = 0,
-							PIN_MICROSWITCH_PORT = 0;
 	
 	//Claw
 	public static final int CLAW_MOTOR_PORT = 7,
@@ -51,14 +34,13 @@ public class RobotMap {
 	
 	//Climber
 	public static final int CLIMBER_MOTOR_PORT = 4,
-							CLIMBER_TOP_MICROSWITCH_PORT = 4,
-							CLIMBER_BOTTOM_MICROSWITCH_PORT = 5;
+							CLIMBER_TOP_MICROSWITCH_PORT = 4;
 	
 	//Enum values
 	//Pitcher
 	public static final double PITCHER_COLLECT_VALUE = 0d/180,
-							   PITCHER_SWITCH_FORWARD_VALUE = 80d/180,
-							   PITCHER_SWITCH_BACKWARD_VALUE = 155d/180,
+							   PITCHER_SWITCH_FORWARD_VALUE = 70d/180,
+							   PITCHER_SWITCH_BACKWARD_VALUE = 160d/180,
 							   PITCHER_PLATE_VALUE = 180d/180,
 							   PITCHER_EXCHANGE_VALUE = 20d/180;
 	

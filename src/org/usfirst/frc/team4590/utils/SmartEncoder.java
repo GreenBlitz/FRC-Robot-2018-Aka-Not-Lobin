@@ -32,7 +32,7 @@ public class SmartEncoder {
 	}
 
 	public ErrorCode reset() {
-		ErrorCode ec = m_talon.getSensorCollection().setQuadraturePosition(0, 10);
+		ErrorCode ec = m_talon.getSensorCollection().setQuadraturePosition(0, 0);
 		if (ec != ErrorCode.OK) {
 			System.err.println("error occured while reseting encoder '" + m_talon.getHandle() + "': " + ec);
 		}

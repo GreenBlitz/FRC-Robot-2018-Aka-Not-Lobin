@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutput {
-	private static final double ABSOLUTE_TOLARENCE = 10d/100,					
+	private static final double ABSOLUTE_TOLARENCE = 10d/100,
+								OUTPUT_RANGE = 0.7,
 								ROTATION_SPEED = 2.5,
 								kP = 3,
 								kI = 0,
@@ -22,6 +23,7 @@ public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutp
 	private long m_onTarget = -1;
 	private boolean m_shouldStop;
 	private boolean m_resetGyro;
+	
 	public DriveForwardsByMeters(double meters, double angle, boolean shouldStop, boolean resetGyro) {
 		requires(Chassis.getInstance());
     	m_meters = meters;
@@ -44,13 +46,12 @@ public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutp
     
     protected void initialize() {
     	System.out.println("Init DriveStraight to: " + m_meters);
-    	Chassis.getInstance().resetEncoders();
     	m_controller = new PIDController(kP, kI, kD, this, this);
     	m_controller.setAbsoluteTolerance(ABSOLUTE_TOLARENCE);
-    	m_controller.setSetpoint(m_meters);
+    	m_controller.setSetpoint(m_meters + Chassis.getInstance().getDistance());
     	SmartDashboard.putNumber("Trying to reach", m_controller.getSetpoint());
-    	m_controller.setOutputRange(-0.6, 0.6);
-    	Chassis.getInstance().resetEncoders();
+    	m_controller.setOutputRange(-OUTPUT_RANGE, OUTPUT_RANGE);
+    //	Chassis.getInstance().resetEncoders();
     	if (m_resetGyro)
     		Chassis.getInstance().resetGyro();
     	m_controller.enable();
@@ -62,12 +63,7 @@ public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutp
         	m_onTarget = System.currentTimeMillis();
         if (!m_controller.onTarget())
         	m_onTarget = -1;
-        boolean ret = m_controller.onTarget() && (System.currentTimeMillis() - m_onTarget >= TIME_ON_TARGET);
-    	if (ret) {
-    		SmartDashboard.putNumber("Encoders", Chassis.getInstance().getDistance());
-    		SmartDashboard.putNumber("Encoders 2", Chassis.getInstance().getAngle());
-    	}  
-    	return ret;
+        return m_controller.onTarget() && (System.currentTimeMillis() - m_onTarget >= TIME_ON_TARGET);
     }
 
     protected void end() {

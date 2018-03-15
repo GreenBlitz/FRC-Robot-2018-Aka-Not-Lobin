@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.commands.commandChains;
 
-import org.usfirst.frc.team4590.robot.commands.claw.GrabCube;
-import org.usfirst.frc.team4590.robot.commands.claw.OpenClaw;
+import org.usfirst.frc.team4590.robot.commands.claw.CloseClaw;
+import org.usfirst.frc.team4590.robot.commands.claw.OpenClawOnWings;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
 import org.usfirst.frc.team4590.utils.CommandChain;
 import org.usfirst.frc.team4590.utils.PitcherState;
@@ -9,17 +9,20 @@ import org.usfirst.frc.team4590.utils.PitcherState;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * prepare to climb by opening the wings and allowing climb control
+ * prepare to climb by opening the wings.
+ * <p>
+ * ONLY USE WHEN THE ROBOT IS ON THE PLATFORM.
+ * </p>
  */
 public class OpenWings extends CommandChain {
 
     public OpenWings() {
-        Command closeClaw = new GrabCube(),
-        		movePitcher = new MovePitcherToState(PitcherState.PLATE),
-        		openWings = new OpenClaw();
+        Command closeClaw = new CloseClaw(),
+        		movePitcher = new MovePitcherToState(PitcherState.SWITCH_BACKWARD),
+        		openClaw = new OpenClawOnWings(500l);
         
         addCommand(closeClaw);
         addSequential(movePitcher, closeClaw);
-        addSequential(openWings, movePitcher);
+        addSequential(openClaw, movePitcher);
     }
 }

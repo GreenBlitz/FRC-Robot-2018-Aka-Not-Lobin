@@ -12,14 +12,17 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//Encoders are about 2600 ticks per meter.
+
 public class Chassis extends Subsystem {
 
 	private static Chassis instance;
 	
+	private static final int TICKS_PER_METER = 2150;
+	
 	private SmartEncoder m_leftEncoder, m_rightEncoder;
 	private CANRobotDrive m_robotDrive;
 	private AHRS m_navx;
+	
 	
 	public static Chassis getInstance() {
 		return instance;
@@ -34,19 +37,25 @@ public class Chassis extends Subsystem {
 									   RobotMap.CHASSIS_REAR_LEFT_MOTOR_PORT,
 									   RobotMap.CHASSIS_FRONT_RIGHT_MOTOR_PORT, 
 									   RobotMap.CHASSIS_REAR_RIGHT_MOTOR_PORT);
-		m_leftEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_LEFT), 2300);
-		m_rightEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_RIGHT), 2300);
+		m_leftEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_LEFT), TICKS_PER_METER);
+		m_rightEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_RIGHT), TICKS_PER_METER);
 		m_navx = new AHRS(RobotMap.CHASSIS_GYRO_PORT);
+		//localizer.reset();
+		//localizer.start();
 	}
 	
     public void initDefaultCommand() {
     	setDefaultCommand(new ArcadeDriveByJoystick(OI.getInstance().getMainJS()));
     }
     
+
     public void update() {
     	SmartDashboard.putString("Chassis current command", getCurrentCommandName());
     	SmartDashboard.putNumber("Chassis angle", getAngle());
     	SmartDashboard.putNumber("Chassis Distance", getDistance());
+    	SmartDashboard.putNumber("Chassis left ticks", getLeftTicks());
+    	SmartDashboard.putNumber("Chassis rightticks", getRightTicks());
+    	
     }
     
     public void arcadeDrive(double moveValue, double rotateValue) {
@@ -99,7 +108,7 @@ public class Chassis extends Subsystem {
     
     public void resetSensors() {
     	resetGyro();
-    	resetEncoders();
+//    	resetEncoders();
     }
     
     public void resetGyro() {

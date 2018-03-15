@@ -5,6 +5,10 @@ import java.util.Vector;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CommandChain extends Command {
+	
+	public CommandChain() {
+		addCommand(new Command() {protected boolean isFinished() {return true;}});
+	}
 
 	private final Vector<ParallelCommand> m_commands = new Vector<ParallelCommand>();
 	private int m_currentCommand = 0;
@@ -50,8 +54,7 @@ public class CommandChain extends Command {
 		m_commands.get(m_currentCommand).runCommands();
 	}
 	
-	protected void onFirstRun(){
-	}
+	protected void onFirstRun() {}
 	
 	@Override
 	protected void execute() {

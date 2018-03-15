@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
+import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcherInState;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
 import org.usfirst.frc.team4590.robot.commands.pitcher.PitcherCommand;
 import org.usfirst.frc.team4590.utils.PitcherState;
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pitcher extends Subsystem {
-
+		
 	private static Pitcher instance;
 	
 	private static final int SAFE_TO_OPEN_BOTTOM_THRESHOLD = 0,
@@ -21,10 +22,9 @@ public class Pitcher extends Subsystem {
 	
 	public static final double DOWN_ANGLE = 0,
 							   UP_ANGLE = 180,
-							   EQUALIBRIUM_ANGLE = 130;
-	
-	private static double DOWN_STATE,
-						  UP_STATE;
+							   EQUALIBRIUM_ANGLE = 130,
+							   DOWN_STATE = 0.809,
+							   UP_STATE = 0.129;
 								
 	private SmartTalon motor;
 	private AnalogPotentiometer potentiometer;
@@ -42,8 +42,6 @@ public class Pitcher extends Subsystem {
 		motor = new SmartTalon(RobotMap.PITCHER_MOTOR_PORT);
 		analog = new AnalogInput(RobotMap.PITCHER_POTENTIOMETER_PORT);
 		potentiometer = new AnalogPotentiometer(analog);
-		UP_STATE = 0.172; //1.0005
-		DOWN_STATE = 0.782;
 	}
 
     public void initDefaultCommand() {}
@@ -66,6 +64,13 @@ public class Pitcher extends Subsystem {
     
     public void stop() {
     	setPower(0);
+    }
+    
+    public PitcherState getCurrentState() {
+    	if (getCurrentCommand() instanceof HoldPitcherInState)
+    		return ((HoldPitcherInState) getCurrentCommand()).getToState();
+    	else 
+    		return null;
     }
     
     public double getPosition() {

@@ -23,7 +23,7 @@ public class ShootToSwitch extends Command {
     
     @Override
     protected boolean isFinished() {
-    	return false;
+    	return isTimedOut();
     }
     
     protected void end() {

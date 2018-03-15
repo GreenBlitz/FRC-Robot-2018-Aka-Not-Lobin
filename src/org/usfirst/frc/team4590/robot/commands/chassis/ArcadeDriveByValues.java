@@ -15,10 +15,6 @@ public class ArcadeDriveByValues extends Command {
 		m_rotation = rotation;
 	}
 	
-	protected void initalize(){
-		
-	}
-	
 	@Override
 	protected boolean isFinished() {
 		return isTimedOut();
@@ -27,5 +23,4 @@ public class ArcadeDriveByValues extends Command {
 	protected void execute(){
 		Chassis.getInstance().arcadeDrive(m_power, m_rotation);
 	}
-
 }

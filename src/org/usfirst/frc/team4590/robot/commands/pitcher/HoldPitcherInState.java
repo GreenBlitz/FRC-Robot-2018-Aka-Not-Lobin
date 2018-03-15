@@ -6,7 +6,7 @@ import org.usfirst.frc.team4590.utils.PitcherState;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-class HoldPitcherInState extends Command implements PitcherCommand {
+public class HoldPitcherInState extends Command implements PitcherCommand {
 
 	private static final double ABSOLUTE_TOLARENCE = 5d/180, 
 								STATIC_POWER = 0.17;

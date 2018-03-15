@@ -10,16 +10,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class RotateByDegrees extends Command implements PIDSource, PIDOutput {
 	private static final double ABSOLUTE_TOLARENCE = 10,
+								OUTPUT_RANGE = 0.7,
 								kP = 0.07,
 								kI = 0,
 								kD = 0;
-	private static final int TIME_ON_TARGET = 2;
+	private static final long TIME_ON_TARGET = 100;
 
 	private PIDController m_controller;
 	private double m_angles;
-	private int m_timeOnTarget = 0;
+	private long m_onTarget = -1;
 	private boolean m_gyroReset;
-	private long m_firstTime = 0;
 	
 	public RotateByDegrees(double angles){
 		this(angles, true);
@@ -29,18 +29,19 @@ public class RotateByDegrees extends Command implements PIDSource, PIDOutput {
 		requires(Chassis.getInstance());
 		m_angles = angles;
 		m_gyroReset = resetGyro;
-		m_firstTime = System.currentTimeMillis();
 	}
 	
 	@Override
 	protected void initialize() {
     	System.out.println("Init Rotation to: " + m_angles);
-    	if (m_gyroReset) Chassis.getInstance().resetGyro();
+    	if (m_gyroReset) 
+    		Chassis.getInstance().resetGyro();
 		m_controller = new PIDController(kP, kI, kD, this, this);
-    	m_controller.setOutputRange(-0.6, 0.6);
+    	m_controller.setOutputRange(-OUTPUT_RANGE, OUTPUT_RANGE);
 		m_controller.setAbsoluteTolerance(ABSOLUTE_TOLARENCE);
     	m_controller.setSetpoint(m_angles);
     	m_controller.enable();
+    	m_onTarget = -1;
 	}
 	
 	@Override
@@ -70,10 +71,10 @@ public class RotateByDegrees extends Command implements PIDSource, PIDOutput {
 
 	@Override
 	protected boolean isFinished() {
-        if (m_controller.onTarget())
-        	m_timeOnTarget++;
-        else
-        	m_timeOnTarget = 0;
-        return m_timeOnTarget > TIME_ON_TARGET /*|| System.currentTimeMillis() - m_firstTime  > 1000*/;
+		if (m_onTarget == -1 && m_controller.onTarget())
+        	m_onTarget = System.currentTimeMillis();
+        if (!m_controller.onTarget())
+        	m_onTarget = -1;
+        return m_controller.onTarget() && (System.currentTimeMillis() - m_onTarget >= TIME_ON_TARGET);
     }
 }

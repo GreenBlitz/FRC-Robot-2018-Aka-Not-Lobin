@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4590.robot.commands.climber;
 
+import org.usfirst.frc.team4590.robot.Robot;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
 import org.usfirst.frc.team4590.robot.subsystems.Climber;
 import org.usfirst.frc.team4590.utils.PitcherState;
@@ -18,6 +19,7 @@ public class ControlClimbByTriggers extends Command {
 
 	private static final double CLIMB_MULTIPLIER = 1;
 	private SmartJoystick m_JS;
+	private boolean started = false;
 	
     public ControlClimbByTriggers(SmartJoystick JS) {
         requires(Climber.getInstance());
@@ -37,9 +39,11 @@ public class ControlClimbByTriggers extends Command {
 //    	else 
     	power = rightTrigger - leftTrigger;
     	
-    	if (Math.abs(power) > 0.3) {
-    	//	Scheduler.getInstance().add(new MovePitcherToState(PitcherState.PLATE));
-    	}
+//    	if (Math.abs(power) > 0.5 & !started) {
+//    		Scheduler.getInstance().add(new MovePitcherToState(PitcherState.SWITCH_BACKWARD));
+//    		Robot.getInstance().setEndgame(true);
+//    		started = true;
+//    	}
     	
     	Climber.getInstance().setPower(power * CLIMB_MULTIPLIER);
     }

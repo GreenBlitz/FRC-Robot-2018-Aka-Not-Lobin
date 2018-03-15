@@ -23,10 +23,10 @@ public class AutoMiddleWithYTeam extends CommandChain {
 		char myScale = GBGameData.getInstance().charAt(GameEntity.SCALE);
 		
 		if(mySwitch == 'R') {
-			addCommand(new AutoSwitchMiddle());
+			addCommand(new AutoSwitchMiddleReverse());
 		} else {
 			if(myScale == 'L'){
-				addCommand(new AutoSwitchMiddle());
+				addCommand(new AutoSwitchMiddleReverse());
 			} else {
 				addCommand(new AutoNoSwitchMiddle());
 			}

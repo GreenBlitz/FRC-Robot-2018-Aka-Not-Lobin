@@ -17,7 +17,6 @@ public class Climber extends Subsystem {
 	
 	private SmartTalon motor;
 	private DigitalInput isBottom;
-	private DigitalInput isTop;
 	
 	public static Climber getInstance() {
 		return instance;
@@ -30,17 +29,15 @@ public class Climber extends Subsystem {
 	private Climber() {
 		motor = new SmartTalon(RobotMap.CLIMBER_MOTOR_PORT);
 		isBottom = new DigitalInput(RobotMap.CLIMBER_TOP_MICROSWITCH_PORT);
-		isTop = new DigitalInput(RobotMap.CLIMBER_BOTTOM_MICROSWITCH_PORT);
 		SmartDashboard.putNumber("Climber power", defaultPower);
 	}
 
     public void initDefaultCommand() {
-    	setDefaultCommand(new ControlClimbByTriggers(OI.getInstance().getSideJS()));
+    	setDefaultCommand(new ControlClimbByTriggers(OI.getInstance().getMainJS()));
     }
     
     public void update() {
     	defaultPower = SmartDashboard.getNumber("Climber power", defaultPower);
-    	SmartDashboard.putBoolean("isOnTop", isOnTop());
     	SmartDashboard.putBoolean("isOnBottom", isOnBottom());
     }
     
@@ -61,12 +58,5 @@ public class Climber extends Subsystem {
      */
     public boolean isOnBottom() {
     	return isBottom.get();
-    }
-    
-    /**
-     * @return if the climber is at the top and the microswitch is pressed
-     */
-    public boolean isOnTop() {
-    	return isTop.get();
     }
 }

@@ -3,17 +3,14 @@ package org.usfirst.frc.team4590.robot;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoDriveForwardToSwitch;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoMiddleLLRS;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoMiddleWithYTeam;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLeft;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchMiddle;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchRight;
-import org.usfirst.frc.team4590.robot.commands.autonomous.reversed.ReverseAutoSwitchLeft;
-import org.usfirst.frc.team4590.robot.commands.autonomous.reversed.ReverseAutoSwitchMiddle;
-import org.usfirst.frc.team4590.robot.commands.autonomous.reversed.ReverseAutoSwitchRight;
+import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLeftReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLineLeft;
+import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLineRight;
+import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchMiddleReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchRightReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.drives.AutoReverseDriveMiddle;
+import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveForwardsByMeters;
-import org.usfirst.frc.team4590.robot.commands.claw.GrabCube;
 import org.usfirst.frc.team4590.robot.commands.shifter.SetShift;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
@@ -28,6 +25,7 @@ import org.usfirst.frc.team4590.utils.ShifterState;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,6 +39,8 @@ public class Robot extends IterativeRobot {
 
 	private Command m_autonomousCommand;
 	private SendableChooser<Command> m_autonomousChooser;
+
+	private boolean endgame = false;
 	
 	public static Robot getInstance() {
 		return instance;
@@ -60,36 +60,34 @@ public class Robot extends IterativeRobot {
 		Shifter.init();
 		OI.init();
 		
-		SmartDashboard.putString("Testing", "Working");
-		
-		CameraServer.getInstance().startAutomaticCapture();
-
-		CameraServer.getInstance().getVideo().getSource().setFPS(30);
-		CameraServer.getInstance().getVideo().getSource().setResolution(160, 120);
 		m_autonomousChooser = new SendableChooser<>();
-		m_autonomousChooser.addObject("Auto with Y team", new AutoMiddleWithYTeam());
-		m_autonomousChooser.addObject("AutoLLineRSwitch", new AutoMiddleLLRS());
-		m_autonomousChooser.addObject("AutoSwitch left", new AutoSwitchLeft());
-		m_autonomousChooser.addDefault("AutoSwitch middle", new AutoSwitchMiddle());
-		m_autonomousChooser.addObject("AutoSwitch right", new AutoSwitchRight());
-		m_autonomousChooser.addObject("REVERSE AutoSwitch left", new ReverseAutoSwitchLeft());
-		m_autonomousChooser.addDefault("REVERSE AutoSwitch middle", new ReverseAutoSwitchMiddle());
-		m_autonomousChooser.addObject("REVERSE AutoSwitch right", new ReverseAutoSwitchRight());
-		m_autonomousChooser.addObject("AutoLine left", new DriveForwardsByMeters(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH));
-		m_autonomousChooser.addObject("AutoLine middle", new AutoDriveForwardToSwitch());
-		m_autonomousChooser.addObject("AutoLine right", new DriveForwardsByMeters(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH));
-		SmartDashboard.putData("Auto Command", m_autonomousChooser);
+		m_autonomousChooser.addObject("REVERSE AutoSwitch left", new AutoSwitchLeftReverse());
+		m_autonomousChooser.addObject("REVERSE AutoSwitch middle", new AutoSwitchMiddleReverse());
+		m_autonomousChooser.addObject("REVERSE AutoSwitch right", new AutoSwitchRightReverse());
+		m_autonomousChooser.addObject("REVERSE AutoLine left", new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)));
+		m_autonomousChooser.addObject("REVERSE AutoLine middle", new AutoReverseDriveMiddle());
+		m_autonomousChooser.addObject("REVERSE AutoLine right", new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)));
+		m_autonomousChooser.addObject("REVERSE AutoSwitchLine left", new AutoSwitchLineLeft());
+		m_autonomousChooser.addObject("REVERSE AutoSwitchLine right", new AutoSwitchLineRight());
+	
+		m_autonomousChooser.addObject("stupid shit", new ArcadeDriveByValues(-0.7, 0, 4000));
+		
+		SmartDashboard.putData("Chooser", m_autonomousChooser);
 	}
 
 	@Override
 	public void autonomousInit() {
+		endgame = false;
 		Chassis.getInstance().resetSensors();
-		m_autonomousCommand = m_autonomousChooser.getSelected();
+		/*Chassis.getInstance().resetLocalizer();
+		Chassis.getInstance().enableLocalizer();*/
+		Timer.delay(0.02);
+		
 		GBGameData.getInstance().insertData(getPlates());
-		Scheduler.getInstance().add(new SetShift(ShifterState.POWER));
+		m_autonomousCommand = m_autonomousChooser.getSelected();
 		Scheduler.getInstance().add(m_autonomousCommand);
+		Scheduler.getInstance().add(new SetShift(ShifterState.POWER));
 	}
-	
 	
 	@Override
 	public void autonomousPeriodic() {
@@ -106,8 +104,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		updateSubsystems();
+		updateSubsystems();		
 		Scheduler.getInstance().run();
+		
+//		endgame = DriverStation.getInstance().getMatchTime() <= 30;
 	}
 	
 	@Override
@@ -119,6 +119,9 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic(){
 		updateSubsystems();
 	}
+	
+	@Override
+	public void testPeriodic(){}
 
 	public void updateSubsystems() {
 		Pitcher.getInstance().update();
@@ -135,5 +138,13 @@ public class Robot extends IterativeRobot {
 			ret +=  DriverStation.getInstance().getGameSpecificMessage();
 		System.out.println(ret);
 		return ret;
+	}
+	
+	public boolean isEndgame() {
+		return endgame;
+	}
+	
+	public void setEndgame(boolean isEndgame) {
+		endgame = isEndgame;
 	}
 }

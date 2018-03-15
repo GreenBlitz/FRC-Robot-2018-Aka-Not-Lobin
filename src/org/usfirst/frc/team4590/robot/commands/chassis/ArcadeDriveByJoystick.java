@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ArcadeDriveByJoystick extends Command {
 	private SmartJoystick m_stick;
+	private final double mult = 1;
 	
     public ArcadeDriveByJoystick(SmartJoystick stick) {
     	requires(Chassis.getInstance());
@@ -15,8 +16,8 @@ public class ArcadeDriveByJoystick extends Command {
     }
 
     protected void execute() {
-    	Chassis.getInstance().arcadeDrive(m_stick.getAxisValue(JoystickAxis.LEFT_Y), 
-    									  m_stick.getAxisValue(JoystickAxis.RIGHT_X));
+    	Chassis.getInstance().arcadeDrive(m_stick.getAxisValue(JoystickAxis.LEFT_Y) * mult, 
+    									  m_stick.getAxisValue(JoystickAxis.RIGHT_X) * mult);
     }
 
     protected boolean isFinished() {

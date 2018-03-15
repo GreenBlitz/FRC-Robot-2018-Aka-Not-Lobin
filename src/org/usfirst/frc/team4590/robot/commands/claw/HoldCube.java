@@ -12,7 +12,7 @@ class HoldCube extends Command implements ClosingClawCommand {
 	
 	@Override
 	protected void execute() {
-		Claw.getInstance().setPower(-Claw.getDefaultPower());
+		Claw.getInstance().setPower(Claw.getDefaultPower());
 	}
 		
 	@Override

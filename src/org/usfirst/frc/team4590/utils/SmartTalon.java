@@ -16,7 +16,7 @@ public class SmartTalon extends TalonSRX {
 		set(ControlMode.PercentOutput, power);
 	}
 	
-	public double getLastValue(){ return m_lastValue;}
-	
-	
+	public double getLastValue(){ 
+		return m_lastValue;
+	}
 }

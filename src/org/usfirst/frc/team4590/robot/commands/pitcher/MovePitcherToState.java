@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4590.robot.commands.pitcher;
-
+	
+import org.usfirst.frc.team4590.robot.Robot;
 import org.usfirst.frc.team4590.robot.commands.claw.CloseClaw;
 import org.usfirst.frc.team4590.robot.commands.claw.ClosingClawCommand;
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
@@ -31,15 +32,21 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 	
 	@Override
 	protected void initialize() {	
+		if (Robot.getInstance().isEndgame() && m_toState != PitcherState.SWITCH_BACKWARD) {
+			setToState(PitcherState.SWITCH_BACKWARD);
+			System.out.println("Cannot move pitcher to anywhere but the"
+					+ " SWITCH_BACKWARD position during endgame.");
+		}
+		
 		m_start = System.currentTimeMillis();
 		
-		boolean direction = m_toPosition > Pitcher.getInstance().getPosition(),
+		boolean goingUp = m_toPosition > Pitcher.getInstance().getPosition(),
 				isNotClosing = !(Claw.getInstance().getCurrentCommand() instanceof ClosingClawCommand);
 		
 		if (isNotClosing && 
-			((direction && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
-			(!direction && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) 
-			Scheduler.getInstance().add(new CloseClaw());
+			((goingUp && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
+			(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) 
+			Scheduler.getInstance().add(new CloseClaw(1000l));
 	}
 
 	@Override

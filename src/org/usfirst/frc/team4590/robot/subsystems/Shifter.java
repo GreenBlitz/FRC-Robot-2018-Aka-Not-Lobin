@@ -34,7 +34,6 @@ public class Shifter extends Subsystem {
     
     public void setShift(ShifterState newShift) {
     	piston.set(newShift.getValue());
-    	System.out.println("Gear " + newShift.name());
     }
     
     public void switchShift() {

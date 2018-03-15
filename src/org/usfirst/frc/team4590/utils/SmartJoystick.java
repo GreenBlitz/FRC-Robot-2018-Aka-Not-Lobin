@@ -22,6 +22,17 @@ public class SmartJoystick {
 	
 	private Joystick m_joystick;
 	
+	public final JoystickButton A,
+								B,
+								X,
+								Y,
+								L1,
+								R1,
+								START,
+								BACK,
+								L3,
+								R3;
+	
 	public class SmartButton{
 		
 		private boolean m_lastState = false;
@@ -108,14 +119,18 @@ public class SmartJoystick {
 		this(new Joystick(joystick_port));
 	}
 	
-	public SmartJoystick(){}
-	
 	public SmartJoystick(Joystick stick){
 		m_joystick = stick;
-	}
-	
-	public JoystickButton getButton(JoystickBinding binding){
-		return new JoystickButton(m_joystick, binding.ordinal() + 1);
+		A = new JoystickButton(m_joystick, 1);
+		B = new JoystickButton(m_joystick, 2);
+		X = new JoystickButton(m_joystick, 3);
+		Y = new JoystickButton(m_joystick, 4);
+		L1 = new JoystickButton(m_joystick, 5);
+		R1 = new JoystickButton(m_joystick, 6);
+		BACK = new JoystickButton(m_joystick, 7);
+		START = new JoystickButton(m_joystick, 8);
+		L3 = new JoystickButton(m_joystick, 9);
+		R3 = new JoystickButton(m_joystick, 10);
 	}
 	
 	public void setAxisInverted(JoystickAxis axis, boolean inverted){
