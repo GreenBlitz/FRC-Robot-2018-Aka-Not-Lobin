@@ -4,16 +4,15 @@ import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveByVision extends Command{
+@SuppressWarnings("deprecation")
+public class DriveByVision extends Command {
 
 	private double m_lastValue = 0;
 	
 	private static final double MULTI = 0.3;
 	
 	public DriveByVision() {
-		super("DriveByVision");
 		requires(Chassis.getInstance());
 	}
 	
@@ -31,5 +30,4 @@ public class DriveByVision extends Command{
 	public void end(){
 		Chassis.getInstance().stop();
 	}
-
 }

@@ -6,16 +6,16 @@ import org.usfirst.frc.team4590.utils.PitcherState;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-public class HoldPitcherInState extends Command implements PitcherCommand {
+public class HoldPitcher extends Command implements PitcherCommand {
 
 	private static final double ABSOLUTE_TOLARENCE = 5d/180, 
-								STATIC_POWER = 0.17;
+								STATIC_POWER = 0.15;
 	
 	private double m_position;
 	private PitcherState m_state;
 	private boolean onCollectOrPlate;
 	
-    HoldPitcherInState(PitcherState state) {
+    HoldPitcher(PitcherState state) {
     	requires(Pitcher.getInstance());
     	onCollectOrPlate = state == PitcherState.COLLECT || state == PitcherState.PLATE;
     	m_state = state;
@@ -29,7 +29,7 @@ public class HoldPitcherInState extends Command implements PitcherCommand {
     		Pitcher.getInstance().setPower(equalibriumOffset > 0 ? power : -power);
    
     		if (Math.abs(m_position - Pitcher.getInstance().getPosition()) > ABSOLUTE_TOLARENCE)
-    			Scheduler.getInstance().add(new MovePitcherToState(m_state));
+    			Scheduler.getInstance().add(new MovePitcher(m_state));
     	}
     	else 
     		Pitcher.getInstance().stop();
@@ -39,7 +39,7 @@ public class HoldPitcherInState extends Command implements PitcherCommand {
         return false;
     }
     
-    public PitcherState getToState() {
+    public PitcherState getState() {
 		return m_state;
 	}
 	

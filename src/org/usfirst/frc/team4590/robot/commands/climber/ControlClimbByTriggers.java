@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.commands.climber;
 
 import org.usfirst.frc.team4590.robot.Robot;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
+import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.subsystems.Climber;
 import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartJoystick;

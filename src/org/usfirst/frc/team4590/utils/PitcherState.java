@@ -17,4 +17,8 @@ public enum PitcherState {
 	public double getPosition() {
 		return m_position;
 	}
+	
+	public double getAngle() {
+		return getPosition() * 180;
+	}
 }

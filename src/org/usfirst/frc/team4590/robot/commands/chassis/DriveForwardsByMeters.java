@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveForwardsByMeters extends Command implements PIDSource, PIDOutput {
 	private static final double ABSOLUTE_TOLARENCE = 10d/100,
 								OUTPUT_RANGE = 0.7,
-								ROTATION_SPEED = 2.5,
+								ROTATION_SPEED = 5,
 								kP = 3,
 								kI = 0,
 								kD = 0;

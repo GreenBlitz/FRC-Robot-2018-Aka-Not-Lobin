@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.commands.commandChains;
 
 import org.usfirst.frc.team4590.robot.commands.claw.OpenClaw;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
+import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
 import org.usfirst.frc.team4590.utils.PitcherState;
 
@@ -12,7 +12,7 @@ public class ReadyToCollect extends Command {
 
 	@Override
 	protected void initialize() {
-		Scheduler.getInstance().add(new MovePitcherToState(PitcherState.COLLECT));
+		Scheduler.getInstance().add(new MovePitcher(PitcherState.COLLECT));
 	}
 	
 	@Override

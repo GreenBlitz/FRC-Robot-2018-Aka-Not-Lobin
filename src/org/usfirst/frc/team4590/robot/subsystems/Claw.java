@@ -2,7 +2,7 @@ package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.Robot;
 import org.usfirst.frc.team4590.robot.RobotMap;
-import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcherInState;
+import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcher;
 import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartTalon;
 
@@ -60,7 +60,7 @@ public class Claw extends Subsystem {
 	
 	public void openWings(double power) {
 		if (Pitcher.getInstance().getCurrentState() == PitcherState.SWITCH_BACKWARD &&
-			Pitcher.getInstance().getCurrentCommand() instanceof HoldPitcherInState) {
+			Pitcher.getInstance().getCurrentCommand() instanceof HoldPitcher) {
 			motor.set(power);
 			Robot.getInstance().setEndgame(true);
 		}
@@ -85,8 +85,12 @@ public class Claw extends Subsystem {
 	public boolean isClosed() {
 		return closedMicroswitch.get();
 	}
-
+	
 	public SmartTalon getMotor() {
 		return motor;
+	}
+
+	public boolean isClosing() {
+		return motor.getLastValue() > 0;
 	}
 }

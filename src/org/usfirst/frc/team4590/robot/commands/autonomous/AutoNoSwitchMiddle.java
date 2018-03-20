@@ -6,7 +6,7 @@ import org.usfirst.frc.team4590.robot.commands.chassis.RotateByDegrees;
 import org.usfirst.frc.team4590.robot.commands.claw.GrabCube;
 import org.usfirst.frc.team4590.robot.commands.intake.Collect;
 import org.usfirst.frc.team4590.robot.commands.intake.ShootToSwitch;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
+import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.utils.CommandChain;
 import org.usfirst.frc.team4590.utils.GBGameData;
 import org.usfirst.frc.team4590.utils.GBGameData.GameEntity;
@@ -34,9 +34,9 @@ public class AutoNoSwitchMiddle extends CommandChain {
 				driveExtra = new ArcadeDriveByValues(0.5, 0, 500),
 				closeClaw = new GrabCube(),
 				collect = new Collect(500),
-				movePitcherToSwitchForward = new MovePitcherToState(PitcherState.SWITCH_FORWARD),
+				movePitcherToSwitchForward = new MovePitcher(PitcherState.SWITCH_FORWARD),
 				throwToSwitch = new ShootToSwitch(500),
-				pitcherToPlate = new MovePitcherToState(PitcherState.PLATE);
+				pitcherToPlate = new MovePitcher(PitcherState.PLATE);
 		
 		addCommand(closeClaw);
 		addParallel(collect, closeClaw);

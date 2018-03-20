@@ -30,10 +30,15 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import gbmotion.util.PrintManager;
+
+// Actual robot
 
 public class Robot extends IterativeRobot {
 	
 	private static final Robot instance = new Robot();
+	
+	public static final PrintManager managedPrinter = new PrintManager();
 	
 	private List<Command> permanentCommands = new LinkedList<Command>();
 
@@ -59,6 +64,10 @@ public class Robot extends IterativeRobot {
 		Climber.init();
 		Shifter.init();
 		OI.init();
+		
+		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().getVideo().getSource().setFPS(30);
+		CameraServer.getInstance().getVideo().getSource().setResolution(320, 240);
 		
 		m_autonomousChooser = new SendableChooser<>();
 		m_autonomousChooser.addObject("REVERSE AutoSwitch left", new AutoSwitchLeftReverse());

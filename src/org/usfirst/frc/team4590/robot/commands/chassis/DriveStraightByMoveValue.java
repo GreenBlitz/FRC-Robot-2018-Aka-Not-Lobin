@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraightByMoveValue extends Command {
 
-	private static final double ROTATION_SPEED = 2.5;
+	private static final double ROTATION_SPEED = 5;
 	
 	private double m_power, m_angle;
 	

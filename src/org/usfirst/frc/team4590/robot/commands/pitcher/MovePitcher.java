@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MovePitcherToState extends Command implements PitcherCommand {
+public class MovePitcher extends Command implements PitcherCommand {
 	private static final double ABSOLUTE_TOLARENCE = 5d/180, 
-								UP_MOVE_POWER = 0.6,
-								DOWN_MOVE_POWER = 0.5,
-								STATIC_POWER = 0.17,
+								UP_MOVE_POWER = 0.9,
+								DOWN_MOVE_POWER = 0.8,
+								STATIC_POWER = 0.15,
 								GRAVITY_DEFLECTOR_POWER = 0.3,
 								DECEL_RANGE = 20d/180;
 	
@@ -24,8 +24,9 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 	private long m_start;
 	private PitcherState m_toState;
 	private double m_toPosition, m_toAngle;
+	private boolean firstRun;
 	
-	public MovePitcherToState(PitcherState toState) {
+	public MovePitcher(PitcherState toState) {
 		requires(Pitcher.getInstance());
 		setToState(toState);
 	}
@@ -38,6 +39,8 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 					+ " SWITCH_BACKWARD position during endgame.");
 		}
 		
+		firstRun = true;
+		
 		m_start = System.currentTimeMillis();
 		
 		boolean goingUp = m_toPosition > Pitcher.getInstance().getPosition(),
@@ -46,17 +49,19 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 		if (isNotClosing && 
 			((goingUp && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
 			(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) 
-			Scheduler.getInstance().add(new CloseClaw(1000l));
+			Scheduler.getInstance().add(new CloseClaw(1500l));
 	}
 
 	@Override
 	protected void execute() {
 //		double gravityDeflector = getGravityDeflector();
-		boolean direction = m_toPosition > Pitcher.getInstance().getPosition();
+		boolean goingUp = m_toPosition > Pitcher.getInstance().getPosition();
 	
-		double movePower = direction ? UP_MOVE_POWER : DOWN_MOVE_POWER;
-	
-		if (!direction && Pitcher.getInstance().getAngle() < 90) {
+		double movePower = goingUp ? UP_MOVE_POWER : DOWN_MOVE_POWER;
+		
+		if (firstRun && !goingUp)
+			Pitcher.getInstance().setPower(0.4);
+		else if (!goingUp && Pitcher.getInstance().getAngle() < 90) {
 			Pitcher.getInstance().setPower(0);
 		}
 		else {
@@ -76,6 +81,8 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 					Pitcher.getInstance().setPower(offset > 0 ? /*gravityDeflector */- movePower : /*gravityDeflector + */movePower);
 			}
 		}
+		
+		firstRun = false;
 	}
 
 	protected double getGravityDeflector() {
@@ -91,7 +98,7 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 	
 	@Override
 	protected void end() {
-		Scheduler.getInstance().add(new HoldPitcherInState(m_toState));
+		Scheduler.getInstance().add(new HoldPitcher(m_toState));
 	}
 	
 	@Override
@@ -113,7 +120,7 @@ public class MovePitcherToState extends Command implements PitcherCommand {
 		SmartDashboard.putNumber("Pitcher toAngle", m_toPosition*180);
 	}
 	
-	public PitcherState getToState() {
+	public PitcherState getState() {
 		return m_toState;
 	}
 	

@@ -39,7 +39,7 @@ public class RobotMap {
 	//Enum values
 	//Pitcher
 	public static final double PITCHER_COLLECT_VALUE = 0d/180,
-							   PITCHER_SWITCH_FORWARD_VALUE = 70d/180,
+							   PITCHER_SWITCH_FORWARD_VALUE = 65d/180, //70
 							   PITCHER_SWITCH_BACKWARD_VALUE = 160d/180,
 							   PITCHER_PLATE_VALUE = 180d/180,
 							   PITCHER_EXCHANGE_VALUE = 20d/180;

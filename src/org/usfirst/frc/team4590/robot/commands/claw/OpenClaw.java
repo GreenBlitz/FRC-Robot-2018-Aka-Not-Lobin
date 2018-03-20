@@ -6,23 +6,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class OpenClaw extends Command {
 
+	private static final long DEFAULT_TIMEOUT = 1500;
+	
 	private double m_power;
 
-	public OpenClaw(long timeout) {
+	public OpenClaw(double power, long timeout) {
 		super(timeout/1000d);
-		requires(Claw.getInstance());
-		m_power = -Math.abs(Claw.getDefaultPower());
-	}
-	
-	public OpenClaw() {
-		this(Claw.getDefaultPower());
-	}
-
-	/**
-	 * @param power
-	 *            The absolute power to give to the motors.
-	 */
-	public OpenClaw(double power) {
 		requires(Claw.getInstance());
 		if (Math.abs(power) > Claw.getDefaultPower())
 			System.out.println("The power given to the claw motor is bigger than the default power."
@@ -30,10 +19,23 @@ public class OpenClaw extends Command {
 					+ "\nDefault power: " + Claw.getDefaultPower());
 		m_power = -Math.abs(power);
 	}
+	
+	public OpenClaw(long timeout) {
+		this(Claw.getDefaultPower(), timeout);
+	}
+	
+	public OpenClaw() {
+		this(Claw.getDefaultPower(), DEFAULT_TIMEOUT);
+	}
+	
+	public OpenClaw(double power) {
+		this(power, DEFAULT_TIMEOUT);
+	}
 
 	@Override
 	protected void execute() {
-		Claw.getInstance().setPower(m_power);
+		if (!Claw.getInstance().isClosing())
+			Claw.getInstance().setPower(m_power);
 	}
 
 	@Override

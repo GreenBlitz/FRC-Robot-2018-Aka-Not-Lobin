@@ -4,7 +4,7 @@ import org.usfirst.frc.team4590.robot.commands.autonomous.drives.AutoReverseDriv
 import org.usfirst.frc.team4590.robot.commands.claw.GrabCube;
 import org.usfirst.frc.team4590.robot.commands.intake.Collect;
 import org.usfirst.frc.team4590.robot.commands.intake.ShootToSwitch;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
+import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.utils.CommandChain;
 import org.usfirst.frc.team4590.utils.PitcherState;
 
@@ -23,7 +23,7 @@ public class AutoSwitchRightReverse extends CommandChain {
 	@Override
 	public void onFirstRun() {
 		Command driveToSwitch = new AutoReverseDriveRight(),
-				movePitcher = new MovePitcherToState(PitcherState.SWITCH_BACKWARD),
+				movePitcher = new MovePitcher(PitcherState.SWITCH_BACKWARD),
 				throwCube = new ShootToSwitch(1000);
 		
 		addCommand(driveToSwitch);

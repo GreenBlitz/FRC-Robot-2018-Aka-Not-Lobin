@@ -4,5 +4,5 @@ import org.usfirst.frc.team4590.utils.PitcherState;
 
 public interface PitcherCommand {
 
-	public PitcherState getToState();
+	public PitcherState getState();
 }

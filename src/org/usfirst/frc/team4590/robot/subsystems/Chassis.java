@@ -12,6 +12,9 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import gbmotion.appc.APPCOutput;
+import gbmotion.appc.Localizer;
+import gbmotion.util.RobotStats;
 
 public class Chassis extends Subsystem {
 
@@ -23,6 +26,8 @@ public class Chassis extends Subsystem {
 	private CANRobotDrive m_robotDrive;
 	private AHRS m_navx;
 	
+	private APPCOutput m_APPCOut;
+	private Localizer localizer;
 	
 	public static Chassis getInstance() {
 		return instance;
@@ -40,14 +45,35 @@ public class Chassis extends Subsystem {
 		m_leftEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_LEFT), TICKS_PER_METER);
 		m_rightEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_RIGHT), TICKS_PER_METER);
 		m_navx = new AHRS(RobotMap.CHASSIS_GYRO_PORT);
-		//localizer.reset();
-		//localizer.start();
+		localizer = Localizer.of(m_leftEncoder, m_rightEncoder, RobotStats.Cerberous.Chassis.HORIZONTAL_DISTANCE.value, m_navx);
+		m_APPCOut = new APPCOutput();
+		localizer.reset();
+		localizer.start();
 	}
 	
     public void initDefaultCommand() {
     	setDefaultCommand(new ArcadeDriveByJoystick(OI.getInstance().getMainJS()));
     }
     
+    public APPCOutput getAPPCOut(){
+    	return m_APPCOut;
+    }
+    
+    public Localizer getLocalizer(){
+    	return localizer;
+    }
+    
+    public void startLocalizer(){
+    	localizer.start();
+    }
+    
+    public void stopLocalizer(){
+    	localizer.stop();
+    }
+    
+    public void resetLocalizer(){
+    	localizer.reset();
+    }
 
     public void update() {
     	SmartDashboard.putString("Chassis current command", getCurrentCommandName());

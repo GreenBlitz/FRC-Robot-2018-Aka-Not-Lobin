@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
-import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcherInState;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcherToState;
+import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcher;
+import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.commands.pitcher.PitcherCommand;
 import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartTalon;
@@ -23,8 +23,8 @@ public class Pitcher extends Subsystem {
 	public static final double DOWN_ANGLE = 0,
 							   UP_ANGLE = 180,
 							   EQUALIBRIUM_ANGLE = 130,
-							   DOWN_STATE = 0.809,
-							   UP_STATE = 0.129;
+							   DOWN_STATE = 0.763,
+							   UP_STATE = 0.147;
 								
 	private SmartTalon motor;
 	private AnalogPotentiometer potentiometer;
@@ -53,8 +53,8 @@ public class Pitcher extends Subsystem {
     	SmartDashboard.putNumber("Potentiometer raw value", potentiometer.get());
     	SmartDashboard.putNumber("Pitcher currentAngle", getPosition()*180);
     	SmartDashboard.putNumber("Pitcher currentPosition", getPosition());
-    	SmartDashboard.putNumber("Pitcher toPosition", getCurrentCommand() instanceof MovePitcherToState ? 
-    			(((MovePitcherToState) getCurrentCommand()).getToPosition()) : -1 );
+    	SmartDashboard.putNumber("Pitcher toPosition", getCurrentCommand() instanceof MovePitcher ? 
+    			(((MovePitcher) getCurrentCommand()).getToPosition()) : -1 );
     }
 
     public void setPower(double power) {
@@ -67,8 +67,8 @@ public class Pitcher extends Subsystem {
     }
     
     public PitcherState getCurrentState() {
-    	if (getCurrentCommand() instanceof HoldPitcherInState)
-    		return ((HoldPitcherInState) getCurrentCommand()).getToState();
+    	if (getCurrentCommand() instanceof HoldPitcher)
+    		return ((HoldPitcher) getCurrentCommand()).getState();
     	else 
     		return null;
     }
@@ -98,7 +98,7 @@ public class Pitcher extends Subsystem {
     	Command currentCommand = getCurrentCommand();
         if (currentCommand != null) {
         	if (currentCommand instanceof PitcherCommand)
-        		return currentCommand.getName() + ": " + ((PitcherCommand) currentCommand).getToState();
+        		return currentCommand.getName() + ": " + ((PitcherCommand) currentCommand).getState();
         	return currentCommand.getName();
         } 
         else
