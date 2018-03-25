@@ -1,14 +1,10 @@
 package org.usfirst.frc.team4590.robot.commands.climber;
 
-import org.usfirst.frc.team4590.robot.Robot;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.subsystems.Climber;
-import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartJoystick;
 import org.usfirst.frc.team4590.utils.SmartJoystick.JoystickAxis;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * Allows the driver to control the climber with the right and left triggers
@@ -19,7 +15,6 @@ public class ControlClimbByTriggers extends Command {
 
 	private static final double CLIMB_MULTIPLIER = 1;
 	private SmartJoystick m_JS;
-	private boolean started = false;
 	
     public ControlClimbByTriggers(SmartJoystick JS) {
         requires(Climber.getInstance());
@@ -38,12 +33,6 @@ public class ControlClimbByTriggers extends Command {
 //    		power = rightTrigger;
 //    	else 
     	power = rightTrigger - leftTrigger;
-    	
-//    	if (Math.abs(power) > 0.5 & !started) {
-//    		Scheduler.getInstance().add(new MovePitcherToState(PitcherState.SWITCH_BACKWARD));
-//    		Robot.getInstance().setEndgame(true);
-//    		started = true;
-//    	}
     	
     	Climber.getInstance().setPower(power * CLIMB_MULTIPLIER);
     }

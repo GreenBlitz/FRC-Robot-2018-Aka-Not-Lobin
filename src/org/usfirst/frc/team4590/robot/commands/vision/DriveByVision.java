@@ -17,6 +17,11 @@ public class DriveByVision extends Command {
 	}
 	
 	@Override
+	protected void initialize() {
+		System.out.println("Driving by vision");
+	}
+	
+	@Override
 	protected boolean isFinished() {
 		return false;
 	}

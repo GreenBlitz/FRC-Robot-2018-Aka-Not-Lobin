@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class PickupCube extends CommandChain {
     public PickupCube() {
     	Command closeClaw = new GrabCube(),
-    			collect = new Collect(1000);
+    			collect = new Collect(1500);
     	
     	addCommand(closeClaw);
-    	addSequential(collect, closeClaw);
+    	addParallel(collect, closeClaw);
     }
 }

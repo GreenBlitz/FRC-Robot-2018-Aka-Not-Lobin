@@ -108,9 +108,10 @@ public class APPController extends IterativeController<IPoint2D, APPController.A
 	private IPoint2D updateGoalPoint(IPoint2D loc, ArenaMap map, double lookAhead) {
 		IPoint2D tmp = map.lastPointInRangeBF(loc, 0, lookAhead);
 		Robot.managedPrinter.println(getClass(), "next goal point: " + tmp);
-		tmp.toDashboard("Goal point");
-		if (tmp != null)
+		if (tmp != null) {
+			tmp.toDashboard("Goal point");
 			NetworkTable.getTable("motion").putNumber("pointIdx", ((IndexedPoint2D)tmp).getIndex());
+		}
 		return tmp;
 	}
 
@@ -164,7 +165,7 @@ public class APPController extends IterativeController<IPoint2D, APPController.A
 		double distanceOverSlowDown = robotLoc.distance(m_destination) / m_slowDownDistance;
 		if (distanceOverSlowDown > 1)
 			return 1;
-		return Math.max(distanceOverSlowDown, 0.5);
+		return Math.max(distanceOverSlowDown, 0.75);
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package gbmotion.base.controller;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
@@ -39,11 +38,12 @@ public abstract class IterativeController<IN, OUT> extends AbstractController<IN
 		m_controllerLoop = new Timer();
 		m_controllerLoop.schedule(new IterativeCalculationTask(), 0L, (long) (1000 * period));
 	}
-	
-	public IterativeController(Input<IN> in, Output<OUT> out, IN destination, double period, String name, Function<IN, Double> norm, double tolerance) {
+
+	public IterativeController(Input<IN> in, Output<OUT> out, IN destination, double period, String name,
+			Function<IN, Double> norm, double tolerance) {
 		super(in, out, destination, name);
 		m_tolerance = new AbsoluteTolerance(norm, tolerance);
-		
+
 		m_period = period;
 
 		m_controllerLoop = new Timer();
@@ -166,7 +166,11 @@ public abstract class IterativeController<IN, OUT> extends AbstractController<IN
 	}
 
 	public void free() {
-		m_controllerLoop.cancel();
+		try {
+			m_controllerLoop.cancel();
+		} catch (NullPointerException e) {
+
+		}
 		super.free();
 		synchronized (LOCK) {
 			m_controllerLoop = null;

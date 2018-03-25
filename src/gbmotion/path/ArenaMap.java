@@ -144,6 +144,15 @@ public class ArenaMap {
 	public ArenaMap() {
 		this(DEFAULT_MAP_ACCURACY, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_X_OFFSET, DEFAULT_Y_OFFSET);
 	}
+	
+	/**
+	 * 
+	 * @param xAxisOffset initial position X
+	 * @param yAxisOffset initial position Y
+	 */
+	public ArenaMap(double xAxisOffset, double yAxisOffset) {
+		this(DEFAULT_MAP_ACCURACY, DEFAULT_WIDTH, DEFAULT_HEIGHT, xAxisOffset, yAxisOffset);
+	}
 
 	/**
 	 * the hash function

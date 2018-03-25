@@ -4,10 +4,7 @@ import org.usfirst.frc.team4590.robot.subsystems.Claw;
 import org.usfirst.frc.team4590.utils.ControlledMotorAccelerator;
 import org.usfirst.frc.team4590.utils.MotorAccelerationFunction;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-
-public class CloseClawControlled extends Command implements ClosingClawCommand {
+public class CloseClawControlled extends ClosingClawCommand {
 
 	private boolean m_isFinished = false;
 	
@@ -37,7 +34,7 @@ public class CloseClawControlled extends Command implements ClosingClawCommand {
 		return false;
 	}
 	
-	public void execute(){
+	public void executeCommand(){
 		if (m_isFinished){
 			Claw.getInstance().setPower(-Claw.getDefaultPower());
 		}

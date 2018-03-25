@@ -3,7 +3,6 @@ package org.usfirst.frc.team4590.robot.commands.intake;
 import org.usfirst.frc.team4590.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Collect extends Command {
 	
@@ -26,7 +25,6 @@ public class Collect extends Command {
     
     @Override
     protected void end() {
-//    	Scheduler.getInstance().add(new KeepRollingInCube());
     	Intake.getInstance().stop();
     }
 }

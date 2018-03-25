@@ -11,7 +11,7 @@ public final class RobotStats {
 
 		public static final boolean CHASSIS_LEFT_ENCODER_INVERT = true, CHASSIS_RIGHT_ENCODER_INVERT = false;
 	}
-	
+
 	public static final class Gildaboi {
 		/**
 		 * Chassis size
@@ -50,18 +50,18 @@ public final class RobotStats {
 			/**
 			 * Left encoder ticks per meter in velocity gear
 			 */
-			LEFT_VELOCITY(-1630, Gear.VELOCITY), 
-			
+			LEFT_VELOCITY(-1630, Gear.VELOCITY),
+
 			/**
 			 * Left encoder ticks per meter in power gear
 			 */
 			LEFT_POWER(-1630, Gear.POWER),
-			
+
 			/**
 			 * Right encoder ticks per meter in velocity gear
 			 */
 			RIGHT_VELOCITY(1630, Gear.VELOCITY),
-			
+
 			/**
 			 * Right encoder ticks per meter in power gear
 			 */
@@ -97,7 +97,7 @@ public final class RobotStats {
 			public int invert() {
 				return (int) Math.signum(value);
 			}
-			
+
 			/**
 			 * 
 			 * @return true if the scale is smaller than 0
@@ -107,8 +107,8 @@ public final class RobotStats {
 			}
 		}
 	}
-	
-	public static final class Cerberous {
+
+	public static final class Icarus {
 
 		/**
 		 * Chassis size
@@ -149,18 +149,18 @@ public final class RobotStats {
 			/**
 			 * Left encoder ticks per meter in velocity gear
 			 */
-			LEFT_VELOCITY(-681, Gear.VELOCITY), 
-			
+			LEFT_VELOCITY(-681, Gear.VELOCITY),
+
 			/**
 			 * Left encoder ticks per meter in power gear
 			 */
 			LEFT_POWER(-2494, Gear.POWER),
-			
+
 			/**
 			 * Right encoder ticks per meter in velocity gear
 			 */
 			RIGHT_VELOCITY(685, Gear.VELOCITY),
-			
+
 			/**
 			 * Right encoder ticks per meter in power gear
 			 */
@@ -196,7 +196,7 @@ public final class RobotStats {
 			public int invert() {
 				return (int) Math.signum(value);
 			}
-			
+
 			/**
 			 * 
 			 * @return true if the scale is smaller than 0
@@ -216,19 +216,19 @@ public final class RobotStats {
 			 * Left encoder ticks per radian in velocity gear
 			 */
 			LEFT_VELOCITY(166 / Math.PI, Gear.VELOCITY),
-			
+
 			/**
 			 * Left encoder ticks per radian in power gear
 			 */
-			LEFT_POWER(594 / Math.PI,Gear.POWER),
-			
+			LEFT_POWER(594 / Math.PI, Gear.POWER),
+
 			/**
 			 * Right encoder ticks per radian in velocity gear
 			 */
 			RIGHT_VELOCITY(-164 / Math.PI, Gear.VELOCITY),
-			
+
 			/**
-			 * Right encoder ticks per radian in power gear 
+			 * Right encoder ticks per radian in power gear
 			 */
 			RIGHT_POWER(-579 / Math.PI, Gear.POWER);
 
@@ -255,7 +255,7 @@ public final class RobotStats {
 				else
 					return dir ? RIGHT_VELOCITY : LEFT_VELOCITY;
 			}
-			
+
 			/**
 			 * 
 			 * @return signum of this value
@@ -263,7 +263,7 @@ public final class RobotStats {
 			public int invert() {
 				return (int) Math.signum(value);
 			}
-			
+
 			/**
 			 * 
 			 * @return true if the scale is smaller than 0

@@ -26,6 +26,6 @@ public class ArcadeDriveByJoystick extends Command {
     
     @Override
     protected void end() {
-    	Chassis.getInstance().tankDrive(0, 0);
+    	Chassis.getInstance().stop();;
     }
 }

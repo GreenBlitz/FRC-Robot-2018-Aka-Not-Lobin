@@ -1,14 +1,11 @@
-
 package org.usfirst.frc.team4590.robot;
 
 import org.usfirst.frc.team4590.robot.commands.claw.CloseClaw;
 import org.usfirst.frc.team4590.robot.commands.claw.OpenClaw;
-import org.usfirst.frc.team4590.robot.commands.claw.OpenClawOnWings;
+import org.usfirst.frc.team4590.robot.commands.commandChains.OpenClawAndShootToScale;
 import org.usfirst.frc.team4590.robot.commands.commandChains.PickupCube;
-import org.usfirst.frc.team4590.robot.commands.intake.Collect;
 import org.usfirst.frc.team4590.robot.commands.intake.ShootToSwitch;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
-import org.usfirst.frc.team4590.robot.commands.pitcher.StopPitcher;
 import org.usfirst.frc.team4590.robot.commands.shifter.ManualSwitchShifts;
 import org.usfirst.frc.team4590.robot.commands.vision.DriveByVision;
 import org.usfirst.frc.team4590.utils.PitcherState;
@@ -45,7 +42,8 @@ public class OI {
 		mainJS.L1.whenPressed(new PickupCube());
 		mainJS.R1.whileHeld(new ShootToSwitch());
 		//Chassis control by arcade drive
-		
+		//Left trigger to move the climber down
+		//Right trigger to move the climber up
 
 		//Assigning Key Bindings ---> Joystick 2 (SideJS)
 		sideJS.A.whenPressed(new MovePitcher(PitcherState.COLLECT));
@@ -53,14 +51,10 @@ public class OI {
 		sideJS.Y.whenPressed(new MovePitcher(PitcherState.SWITCH_FORWARD));
 		sideJS.X.whenPressed(new MovePitcher(PitcherState.SWITCH_BACKWARD));
 		sideJS.START.whenPressed(new MovePitcher(PitcherState.PLATE));
-//		sideJS.L3.whenPressed(new StopPitcher());
-		sideJS.L3.whenPressed(new Collect());
-		sideJS.R3.whileHeld(new OpenClawOnWings());
-		sideJS.BACK.whileHeld(new DriveByVision());
+		sideJS.L3.whenPressed(new OpenClawAndShootToScale());
+		mainJS.BACK.whileHeld(new DriveByVision());
 		sideJS.L1.whileHeld(new CloseClaw());
 		sideJS.R1.whileHeld(new OpenClaw());
-		//Left trigger to move the climber down
-		//Right trigger to move the climber up
 	}
 	
 	public SmartJoystick getMainJS() {

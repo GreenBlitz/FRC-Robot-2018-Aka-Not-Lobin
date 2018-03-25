@@ -14,11 +14,15 @@ public class CommandChain extends Command {
 	private int m_currentCommand = 0;
 	private boolean m_hasRan = false;
 	
-	protected void addCommand(Command toRun) {
+	protected final void addCommand(Command toRun) {
 		m_commands.add(new ParallelCommand(toRun));
 	}
 	
-	protected void addSequential(Command toRun, Command after) {
+	protected final void addSequential(Command toRun) {
+		addCommand(toRun);
+	}
+	
+	protected final void addSequential(Command toRun, Command after) {
 		for (ParallelCommand parallelCommand : m_commands) {
 			if (parallelCommand.contains(after)) {
 				try {
@@ -33,7 +37,7 @@ public class CommandChain extends Command {
 				" is not a part of this command chain. please enter it beforehand.");
 	}
 	
-	protected void addParallel(Command toRun, Command with) {
+	protected final void addParallel(Command toRun, Command with) {
 		for (ParallelCommand parallelCommand : m_commands) {
 			if (parallelCommand.contains(with)) {
 				parallelCommand.addParallel(toRun);
@@ -45,7 +49,7 @@ public class CommandChain extends Command {
 	}
 
 	@Override
-	protected void initialize() {
+	protected final void initialize() {
 		if (!m_hasRan){
 			m_hasRan = true;
 			onFirstRun();
@@ -57,7 +61,7 @@ public class CommandChain extends Command {
 	protected void onFirstRun() {}
 	
 	@Override
-	protected void execute() {
+	protected final void execute() {
 		ParallelCommand currentCommands = m_commands.get(m_currentCommand);
 		if (currentCommands.isCompleted()) {
 			m_currentCommand++;
@@ -67,7 +71,7 @@ public class CommandChain extends Command {
 	}
 	
 	@Override
-	protected boolean isFinished() {
+	protected final boolean isFinished() {
 		return m_currentCommand == m_commands.size();
 	}
 }

@@ -4,6 +4,7 @@ import org.usfirst.frc.team4590.robot.RobotMap;
 import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcher;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.commands.pitcher.PitcherCommand;
+import org.usfirst.frc.team4590.utils.PitcherDirection;
 import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartTalon;
 
@@ -17,15 +18,17 @@ public class Pitcher extends Subsystem {
 		
 	private static Pitcher instance;
 	
-	private static final int SAFE_TO_OPEN_BOTTOM_THRESHOLD = 0,
-	   				   		 SAFE_TO_OPEN_TOP_THRESHOLD = 0;
+	private static final int SAFE_TO_OPEN_DOWNWARD_THRESHOLD = 95,
+	   				   		 SAFE_TO_OPEN_UPWARD_THRESHOLD = 140;
 	
 	public static final double DOWN_ANGLE = 0,
 							   UP_ANGLE = 180,
 							   EQUALIBRIUM_ANGLE = 130,
-							   DOWN_STATE = 0.763,
-							   UP_STATE = 0.147;
-								
+							   DOWN_STATE = 0.777,
+							   UP_STATE = 0.141;
+	
+	private PitcherDirection m_direction = PitcherDirection.STATIONARY;
+	
 	private SmartTalon motor;
 	private AnalogPotentiometer potentiometer;
 	private AnalogInput analog;
@@ -48,6 +51,7 @@ public class Pitcher extends Subsystem {
     
     public void update() {
     	SmartDashboard.putString("Pitcher current command", getCurrentCommandName());
+    	SmartDashboard.putString("Pitcher direction", m_direction.name());
     	SmartDashboard.putNumber("analoginput raw voltage", analog.getVoltage());
     	SmartDashboard.putNumber("analog raw value", analog.getValue());
     	SmartDashboard.putNumber("Potentiometer raw value", potentiometer.get());
@@ -55,6 +59,16 @@ public class Pitcher extends Subsystem {
     	SmartDashboard.putNumber("Pitcher currentPosition", getPosition());
     	SmartDashboard.putNumber("Pitcher toPosition", getCurrentCommand() instanceof MovePitcher ? 
     			(((MovePitcher) getCurrentCommand()).getToPosition()) : -1 );
+    	
+    	SmartDashboard.putBoolean("Pitcher isSafeToOpenDownward", isSafeToOpenDownward());
+    	SmartDashboard.putBoolean("Pitcher isSafeToOpenUpward", isSafeToOpenUpward());
+    	boolean shouldUnlockDownward = Pitcher.getInstance().getDirection() == PitcherDirection.DOWN
+			 	   					   && Pitcher.getInstance().isSafeToOpenDownward(),
+			 	shouldUnlockUpward = Pitcher.getInstance().getDirection() == PitcherDirection.UP
+		   		 					 && Pitcher.getInstance().isSafeToOpenUpward();
+
+    	SmartDashboard.putBoolean("shouldUnlockDownward", shouldUnlockDownward);
+    	SmartDashboard.putBoolean("shouldUnlockUpward", shouldUnlockUpward);
     }
 
     public void setPower(double power) {
@@ -81,16 +95,16 @@ public class Pitcher extends Subsystem {
     	return getPosition() * 180;
     }
     
-    public boolean isSafeToOpenBottom() {
-		return getPosition() < SAFE_TO_OPEN_BOTTOM_THRESHOLD;
+    public boolean isSafeToOpenDownward() {
+		return getAngle() < SAFE_TO_OPEN_DOWNWARD_THRESHOLD;
 	}
 	
-	public boolean isSafeToOpenTop() {
-		return getPosition() > SAFE_TO_OPEN_TOP_THRESHOLD;
+	public boolean isSafeToOpenUpward() {
+		return getAngle() > SAFE_TO_OPEN_UPWARD_THRESHOLD;
 	}
     
     public boolean isSafeToOpen() {
-    	return isSafeToOpenBottom() || isSafeToOpenTop();
+    	return isSafeToOpenDownward() || isSafeToOpenUpward();
     }
     
     @Override
@@ -103,5 +117,13 @@ public class Pitcher extends Subsystem {
         } 
         else
           return "";
+    }
+    
+    public void setDirection(PitcherDirection direction) {
+    	m_direction = direction;
+    }
+    
+    public PitcherDirection getDirection() {
+    	return m_direction;
     }
 }

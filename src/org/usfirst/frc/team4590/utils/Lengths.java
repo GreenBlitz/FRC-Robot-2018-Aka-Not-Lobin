@@ -6,10 +6,16 @@ public class Lengths {
 	public static final double ROBOT_LENGTH = 0.9,
 							   ROBOT_WIDTH = 1;
 	
+	//Power cube
+	public static final double POWER_CUBE_LENGTH = 0.330;
+	
 	//Field
 	public static final double FIELD_LENGTH = 16.4592,
 							   FIELD_WIDTH = 8.2296,
 							   MIDDLE_OF_ALLIANCE_SPACE = 1.8288;
+	
+	//Alliance station
+	public static final double ALLIANCE_STATION_LENGTH = 15.849;
 	
 	//Auto line
 	public static final double AUTO_LINE = 3.048;
@@ -17,13 +23,20 @@ public class Lengths {
 	//Switch
 	public static final double SWITCH_LENGTH = 3.6576,
 							   SWITCH_WIDTH = 1.2192,
-							   SWITCH_FROM_ALLIANCE_WALL = 3.6576, //3.8576
+							   SWITCH_FROM_ALLIANCE_WALL = 3.8576,
 							   SWITCH_FROM_GUARDRAILS = 2.286, 
 							   SWITCH_MIDDLE_TO_PLATE_MIDDLE = 1.3716,
 							   SWITCH_PLATES_MIDDLES_DISTANCE = 2.7432;	
 	//Scale
 	public static final double SCALE_LENGTH = 3.6576,
 							   SCALE_WIDTH = 4.572,
+							   SCALE_PLATE_LENGTH = 1.219,
+							   SCALE_PLATE_WIDTH = 0.914,
 							   SCALE_FROM_ALLIANCE_WALL = 7.620,
 							   SCALE_FROM_GUARDRAILS = 1.8288;
+
+	//Platform zone
+	public static final double PLATFORM_ZONE_LENGTH = 3.390,
+							   PLATFORM_ZONE_WIDTH = 3.041,
+							   MIDDLE_OF_PLATFORM_ZONE_FLOOR_FROM_ALLIANCE_STATION = 5.675;
 }

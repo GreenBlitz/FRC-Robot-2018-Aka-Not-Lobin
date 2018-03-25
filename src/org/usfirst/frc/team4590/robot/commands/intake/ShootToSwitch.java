@@ -17,6 +17,11 @@ public class ShootToSwitch extends Command {
 		requires(Intake.getInstance());
 	}
 	
+	@Override
+	protected void initialize() {
+		System.out.println("Shooting cube");
+	}
+	
     protected void execute() {
     	Intake.getInstance().setPower(POWER);
     }

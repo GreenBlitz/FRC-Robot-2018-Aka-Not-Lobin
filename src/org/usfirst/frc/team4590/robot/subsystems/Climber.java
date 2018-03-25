@@ -5,7 +5,6 @@ import org.usfirst.frc.team4590.robot.RobotMap;
 import org.usfirst.frc.team4590.robot.commands.climber.ControlClimbByTriggers;
 import org.usfirst.frc.team4590.utils.SmartTalon;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,7 +15,6 @@ public class Climber extends Subsystem {
 	private static double defaultPower = 1;
 	
 	private SmartTalon motor;
-	private DigitalInput isBottom;
 	
 	public static Climber getInstance() {
 		return instance;
@@ -28,7 +26,6 @@ public class Climber extends Subsystem {
 	
 	private Climber() {
 		motor = new SmartTalon(RobotMap.CLIMBER_MOTOR_PORT);
-		isBottom = new DigitalInput(RobotMap.CLIMBER_TOP_MICROSWITCH_PORT);
 		SmartDashboard.putNumber("Climber power", defaultPower);
 	}
 
@@ -37,8 +34,7 @@ public class Climber extends Subsystem {
     }
     
     public void update() {
-    	defaultPower = SmartDashboard.getNumber("Climber power", defaultPower);
-    	SmartDashboard.putBoolean("isOnBottom", isOnBottom());
+    	SmartDashboard.putString("Climber current command", getCurrentCommandName());
     }
     
     public static double getDefaultPower() {
@@ -50,13 +46,6 @@ public class Climber extends Subsystem {
     }
     
     public void stop() {
-    	motor.set(0);
-    }
-    
-    /**
-     * @return if the climber is at the button and the microswitch is pressed
-     */
-    public boolean isOnBottom() {
-    	return isBottom.get();
+    	setPower(0);
     }
 }

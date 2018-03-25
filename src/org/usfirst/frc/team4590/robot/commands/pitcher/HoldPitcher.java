@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4590.robot.commands.pitcher;
 
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
+import org.usfirst.frc.team4590.utils.PitcherDirection;
 import org.usfirst.frc.team4590.utils.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +21,11 @@ public class HoldPitcher extends Command implements PitcherCommand {
     	onCollectOrPlate = state == PitcherState.COLLECT || state == PitcherState.PLATE;
     	m_state = state;
     	m_position = state.getPosition();
+    }
+    
+    @Override
+    protected void initialize() {
+    	Pitcher.getInstance().setDirection(PitcherDirection.STATIONARY);
     }
 
     protected void execute() {

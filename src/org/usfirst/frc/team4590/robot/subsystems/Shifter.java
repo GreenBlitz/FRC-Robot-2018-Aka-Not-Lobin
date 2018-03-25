@@ -29,6 +29,7 @@ public class Shifter extends Subsystem {
     public void initDefaultCommand() {}
     
     public void update() {
+    	SmartDashboard.putString("Shifter current command", getCurrentCommandName());
     	SmartDashboard.putString("Shifter current shift", getShift().toString());
     }
     

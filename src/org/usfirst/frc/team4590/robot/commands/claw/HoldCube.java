@@ -2,16 +2,14 @@ package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-class HoldCube extends Command implements ClosingClawCommand {
+class HoldCube extends ClosingClawCommand {
 
 	HoldCube() {
 		requires(Claw.getInstance());
 	}
 	
 	@Override
-	protected void execute() {
+	protected void executeCommand() {
 		Claw.getInstance().setPower(Claw.getDefaultPower());
 	}
 		

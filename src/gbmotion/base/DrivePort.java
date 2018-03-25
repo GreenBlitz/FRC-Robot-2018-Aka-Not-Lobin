@@ -1,13 +1,20 @@
 package gbmotion.base;
 
-import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.utils.CANRobotDrive;
 import org.usfirst.frc.team4590.utils.CANRobotDrive.TalonID;
-import org.usfirst.frc.team4590.utils.SmartEncoder;
+import gbmotion.util.SmartEncoder;
+import org.usfirst.frc.team4590.utils.SmartTalon;
+
+import gbmotion.util.RobotStats;
+import gbmotion.util.Shifter;
 
 public class DrivePort {
 
-	public static final DrivePort DEFAULT = new DrivePort();
+	//public static final DrivePort DEFAULT = new DrivePort();
+	
+	public static DrivePort DEFAULT = null;
+	
+	
 	
 	// public static final DrivePort GILDABOI = new DrivePort(new SmartTalon(8), new SmartTalon(11));
 
@@ -17,7 +24,17 @@ public class DrivePort {
 	
 	public DrivePort(){
 	}
-
+	
+	public DrivePort(SmartTalon frontLeftMotor, SmartTalon rearLeftMotor, SmartTalon frontRightMotor,
+			SmartTalon rearRightMotor) {
+		m_robotDrive = new CANRobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+		m_leftEncoder = new SmartEncoder(rearLeftMotor, RobotStats.Icarus.EncoderMetreScale.LEFT_POWER.value,
+				RobotStats.Icarus.EncoderMetreScale.of(Shifter.getInstance().getState(), false).value);
+		m_rightEncoder = new SmartEncoder(rearRightMotor, RobotStats.Icarus.EncoderMetreScale.RIGHT_POWER.value,
+				RobotStats.Icarus.EncoderMetreScale.of(Shifter.getInstance().getState(), true).value);
+		}
+	
+	
 	/**
 	 * @param leftValue
 	 * @param rightValue
@@ -86,5 +103,12 @@ public class DrivePort {
 	 */
 	public String toString() {
 		return m_robotDrive.toString();
+	}
+
+	public static DrivePort of(CANRobotDrive robotDrive) {
+		return new DrivePort(robotDrive.getTalon(TalonID.FRONT_LEFT),
+				robotDrive.getTalon(TalonID.REAR_LEFT),
+				robotDrive.getTalon(TalonID.FRONT_RIGHT),
+				robotDrive.getTalon(TalonID.REAR_RIGHT));
 	}
 }

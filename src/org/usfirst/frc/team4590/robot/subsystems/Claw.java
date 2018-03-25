@@ -21,7 +21,7 @@ public class Claw extends Subsystem {
 							 VOLTAGE_LIMIT = 2;
 
 	private SmartTalon motor;
-	private DigitalInput openMicroswitch, closedMicroswitch;
+	private DigitalInput openMicroswitch;
 
 	public static Claw getInstance() {
 		return instance;
@@ -36,9 +36,7 @@ public class Claw extends Subsystem {
 		motor.configVoltageCompSaturation(2, 0);
 		motor.enableVoltageCompensation(true);
 		openMicroswitch = new DigitalInput(RobotMap.CLAW_OPEN_MICROSWITCH_PORT);
-		closedMicroswitch = new DigitalInput(RobotMap.CLAW_CLOSED_MICROSWITCH_PORT);
-		 SmartDashboard.putNumber("Claw power", defaultPower);
-		// SmartDashboard.putNumber("Claw current limit", currentLimit);
+		SmartDashboard.putNumber("Claw power", defaultPower);
 	}
 
 	public void initDefaultCommand() {}
@@ -49,7 +47,6 @@ public class Claw extends Subsystem {
 		SmartDashboard.putString("Claw current command", getCurrentCommandName());
 		defaultPower = SmartDashboard.getNumber("Claw power", defaultPower);
 		SmartDashboard.putBoolean("Claw isOpen", isOpen());
-		SmartDashboard.putBoolean("Claw isClosed", isClosed());
 		SmartDashboard.putNumber("Claw vlotage", motor.getMotorOutputVoltage());
 		if(motor.getLastError() != ErrorCode.OK) System.out.println("TALON ERROR: " + motor.getLastError() + " ,value " + motor.getLastValue() + " ,voltage " + motor.getBusVoltage());
 	}
@@ -82,15 +79,15 @@ public class Claw extends Subsystem {
 		return openMicroswitch.get();
 	}
 
-	public boolean isClosed() {
-		return closedMicroswitch.get();
-	}
-	
 	public SmartTalon getMotor() {
 		return motor;
 	}
 
 	public boolean isClosing() {
 		return motor.getLastValue() > 0;
+	}
+	
+	public boolean isOpening() {
+		return motor.getLastValue() < 0;
 	}
 }
