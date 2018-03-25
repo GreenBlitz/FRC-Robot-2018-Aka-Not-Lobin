@@ -39,4 +39,14 @@ public class Lengths {
 	public static final double PLATFORM_ZONE_LENGTH = 3.390,
 							   PLATFORM_ZONE_WIDTH = 3.041,
 							   MIDDLE_OF_PLATFORM_ZONE_FLOOR_FROM_ALLIANCE_STATION = 5.675;
+	
+	//relevant stuff
+	public static final double PATH_BETWEEN_RAMP_AND_SWITCH_MIDDLE_TO_ALLIANCE_WALL = 5.976,
+							   PATH_BETWEEN_RAMP_AND_SWITCH_WIDTH = 1.332,
+							   ALLIANCE_WALL_LENGTH = 6.735,
+							   HALF_FIELD_LENGTH = 8.2296,
+							   CORNER_X_LENGTH = (FIELD_WIDTH - ALLIANCE_WALL_LENGTH)/2,
+							   NULL_WIDTH = 2.42,
+							   NULL_LENGTH = 1.83;
+			
 }
