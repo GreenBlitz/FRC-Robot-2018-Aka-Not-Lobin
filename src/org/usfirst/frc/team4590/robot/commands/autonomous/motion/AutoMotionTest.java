@@ -36,13 +36,13 @@ public class AutoMotionTest extends CommandChain {
 		int sign = invert ? -1:1;
 		return new PathFactory()
 				.connectLine(0,
-						-(Lengths.PATH_BETWEEN_RAMP_AND_SWITCH_MIDDLE_TO_ALLIANCE_WALL - 0.5 * Lengths.ROBOT_LENGTH + 0.1),
-						0.01)
-				.connectLine(-sign*(Lengths.ALLIANCE_WALL_LENGTH + Lengths.CORNER_X_LENGTH - Lengths.ROBOT_WIDTH - 0.5),
-						-(Lengths.PATH_BETWEEN_RAMP_AND_SWITCH_MIDDLE_TO_ALLIANCE_WALL - 0.5 * Lengths.ROBOT_LENGTH + 0.1),
+						(Lengths.PATH_BETWEEN_RAMP_AND_SWITCH_MIDDLE_TO_ALLIANCE_WALL - 0.5 * Lengths.ROBOT_LENGTH + 0.1),
 						0.01)
 				.connectLine(sign*(Lengths.ALLIANCE_WALL_LENGTH + Lengths.CORNER_X_LENGTH - Lengths.ROBOT_WIDTH - 0.5),
-						-(Lengths.FIELD_LENGTH/2 - Lengths.ROBOT_LENGTH/2 - Lengths.NULL_LENGTH/2),
+						(Lengths.PATH_BETWEEN_RAMP_AND_SWITCH_MIDDLE_TO_ALLIANCE_WALL - 0.5 * Lengths.ROBOT_LENGTH + 0.1),
+						0.01)
+				.connectLine(sign*(Lengths.ALLIANCE_WALL_LENGTH + Lengths.CORNER_X_LENGTH - Lengths.ROBOT_WIDTH - 0.5),
+						(Lengths.FIELD_LENGTH/2 - Lengths.ROBOT_LENGTH/2 - Lengths.NULL_LENGTH/2),
 						0.01)
 				.construct(new ArenaMap());
 	

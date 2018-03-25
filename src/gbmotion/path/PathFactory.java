@@ -100,7 +100,7 @@ public class PathFactory {
 		for(int i=0; i<points.length;) pointsAgain[i] = Point2D.immutable(points[i++]);
 		for(int i=0; i<points.length-1;){
 			connectLine(MathUtil.nextTo(pointsAgain[i], m_path.getLast(), roundingSize), metersPerPoint);
-			bazierCurve(metersPerPoint/(2*roundingSize), pointsAgain[i], MathUtil.nextTo(pointsAgain[i], pointsAgain[++i], roundingSize));
+			bazierCurve(2*roundingSize/metersPerPoint, pointsAgain[i], MathUtil.nextTo(pointsAgain[i], pointsAgain[++i], roundingSize));
 		}
 		connectLine(points[points.length-1], metersPerPoint);
 		return this;
