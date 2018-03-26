@@ -132,7 +132,9 @@ public abstract class AbstractController<IN, OUT> implements IController {
 
 		m_inputConstrain = inputConstrain;
 		m_outputConstrain = outputConstrain;
-
+		
+		if (in == null) throw new RuntimeException("null input");
+		
 		m_input = () -> inputConstrain.apply(in.recieve());
 		m_output = new Output<OUT>() {
 			@Override

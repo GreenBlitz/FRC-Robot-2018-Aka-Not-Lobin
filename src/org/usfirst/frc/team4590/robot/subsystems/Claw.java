@@ -3,8 +3,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 import org.usfirst.frc.team4590.robot.Robot;
 import org.usfirst.frc.team4590.robot.RobotMap;
 import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcher;
-import org.usfirst.frc.team4590.utils.PitcherState;
-import org.usfirst.frc.team4590.utils.SmartTalon;
+import org.usfirst.frc.team4590.utils.CTRE.SmartTalon;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import com.ctre.phoenix.ErrorCode;
 
@@ -16,7 +16,6 @@ public class Claw extends Subsystem {
 
 	private static Claw instance;
 
-	private static double defaultPower = 0.1; //0.13
 	public static final int CURRENT_LIMIT = 0, //27
 							 VOLTAGE_LIMIT = 2;
 
@@ -36,7 +35,6 @@ public class Claw extends Subsystem {
 		motor.configVoltageCompSaturation(2, 0);
 		motor.enableVoltageCompensation(true);
 		openMicroswitch = new DigitalInput(RobotMap.CLAW_OPEN_MICROSWITCH_PORT);
-		SmartDashboard.putNumber("Claw power", defaultPower);
 	}
 
 	public void initDefaultCommand() {}
@@ -45,16 +43,11 @@ public class Claw extends Subsystem {
 		SmartDashboard.putString("Claw error", motor.getLastError().name());
 		SmartDashboard.putNumber("Claw voltage", motor.getMotorOutputVoltage());
 		SmartDashboard.putString("Claw current command", getCurrentCommandName());
-		defaultPower = SmartDashboard.getNumber("Claw power", defaultPower);
 		SmartDashboard.putBoolean("Claw isOpen", isOpen());
 		SmartDashboard.putNumber("Claw vlotage", motor.getMotorOutputVoltage());
 		if(motor.getLastError() != ErrorCode.OK) System.out.println("TALON ERROR: " + motor.getLastError() + " ,value " + motor.getLastValue() + " ,voltage " + motor.getBusVoltage());
 	}
 
-	public static double getDefaultPower() {
-		return defaultPower;
-	}
-	
 	public void openWings(double power) {
 		if (Pitcher.getInstance().getCurrentState() == PitcherState.SWITCH_BACKWARD &&
 			Pitcher.getInstance().getCurrentCommand() instanceof HoldPitcher) {

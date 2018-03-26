@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RotateByDegrees extends Command implements PIDSource, PIDOutput {
-	private static final double ABSOLUTE_TOLARENCE = 10,
+	private static final double ABSOLUTE_TOLARENCE = 7,
 								OUTPUT_RANGE = 0.7,
 								kP = 0.07,
 								kI = 0,

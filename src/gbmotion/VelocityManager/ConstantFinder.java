@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.usfirst.frc.team4590.robot.Robot;
-import org.usfirst.frc.team4590.utils.SmartTalon;
+import org.usfirst.frc.team4590.utils.CTRE.SmartTalon;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;

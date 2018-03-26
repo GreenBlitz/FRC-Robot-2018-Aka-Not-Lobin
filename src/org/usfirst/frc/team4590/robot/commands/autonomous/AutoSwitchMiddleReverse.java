@@ -5,8 +5,8 @@ import org.usfirst.frc.team4590.robot.commands.claw.GrabCube;
 import org.usfirst.frc.team4590.robot.commands.intake.Collect;
 import org.usfirst.frc.team4590.robot.commands.intake.ShootToSwitch;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
-import org.usfirst.frc.team4590.utils.CommandChain;
-import org.usfirst.frc.team4590.utils.PitcherState;
+import org.usfirst.frc.team4590.utils.commandChain.CommandChain;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
 

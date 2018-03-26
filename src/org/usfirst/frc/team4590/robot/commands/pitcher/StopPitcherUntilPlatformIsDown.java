@@ -2,7 +2,7 @@ package org.usfirst.frc.team4590.robot.commands.pitcher;
 
 import org.usfirst.frc.team4590.robot.subsystems.Cannon;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
-import org.usfirst.frc.team4590.utils.PitcherState;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;

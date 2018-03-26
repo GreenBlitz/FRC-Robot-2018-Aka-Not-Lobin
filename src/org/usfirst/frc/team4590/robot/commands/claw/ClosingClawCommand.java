@@ -2,7 +2,7 @@ package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Cannon;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
-import org.usfirst.frc.team4590.utils.PitcherDirection;
+import org.usfirst.frc.team4590.utils.enums.PitcherDirection;
 
 import edu.wpi.first.wpilibj.command.Command;
 

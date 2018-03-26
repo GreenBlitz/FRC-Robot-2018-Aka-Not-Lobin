@@ -3,10 +3,10 @@ package org.usfirst.frc.team4590.robot.commands.autonomous.drives;
 import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveForwardsByMeters;
 import org.usfirst.frc.team4590.robot.commands.chassis.RotateByDegrees;
-import org.usfirst.frc.team4590.utils.CommandChain;
-import org.usfirst.frc.team4590.utils.GBGameData;
-import org.usfirst.frc.team4590.utils.GBGameData.GameEntity;
-import org.usfirst.frc.team4590.utils.Lengths;
+import org.usfirst.frc.team4590.utils.commandChain.CommandChain;
+import org.usfirst.frc.team4590.utils.gameData.GBGameData;
+import org.usfirst.frc.team4590.utils.gameData.Lengths;
+import org.usfirst.frc.team4590.utils.gameData.GBGameData.GameEntity;
 
 import edu.wpi.first.wpilibj.command.Command;
 

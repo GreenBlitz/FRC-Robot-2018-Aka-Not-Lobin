@@ -1,9 +1,10 @@
 package gbmotion.base;
 
-import org.usfirst.frc.team4590.utils.CANRobotDrive;
-import org.usfirst.frc.team4590.utils.CANRobotDrive.TalonID;
 import gbmotion.util.SmartEncoder;
-import org.usfirst.frc.team4590.utils.SmartTalon;
+
+import org.usfirst.frc.team4590.utils.CTRE.CANRobotDrive;
+import org.usfirst.frc.team4590.utils.CTRE.SmartTalon;
+import org.usfirst.frc.team4590.utils.CTRE.CANRobotDrive.TalonID;
 
 import gbmotion.util.RobotStats;
 import gbmotion.util.Shifter;

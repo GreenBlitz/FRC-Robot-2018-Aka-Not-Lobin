@@ -267,6 +267,7 @@ public class ArenaMap {
 		Robot.managedPrinter.println(getClass(), ret);
 		return ret;
 	}
+	
 	public IndexedPoint2D lastPointInRangeBF(IPoint2D loc, double minRadius, double maxRadius) {
 	
 		double minRadiusSq = minRadius * minRadius, maxRadiusSq = maxRadius * maxRadius;
@@ -307,8 +308,10 @@ public class ArenaMap {
 	}
 
 	private IPoint2D closestPoint(IPoint2D loc, double radius) {
-		if (radius > 2 * m_mapAccuracy * (m_map.length + m_map[0].length))
+		if (radius > 2 * m_mapAccuracy * (m_map.length + m_map[0].length)) {
+			System.out.println("found it" + "\nr is:" + radius);
 			return null;
+		}
 		IPoint2D ret = findClosest(pointsInRange(loc, 0, 2 * radius), loc);
 		if (ret != null)
 			return ret;
@@ -332,6 +335,25 @@ public class ArenaMap {
 			ret = closestPoint(loc, radius);
 		}
 		Robot.managedPrinter.printf(getClass(), "location: %s, point in range: %s, radius: %f\r\n", loc, ret, radius);
+		return ret;
+	}
+	
+	public IndexedPoint2D lastPointInRange(IPoint2D loc, double radius, boolean isAutistic){
+		if(!isAutistic) return lastPointInRangeBF(loc, 0, radius);
+		IndexedPoint2D ret = null;
+		boolean isFound = false;
+		for(int ind=m_path.size()-1; ind>=0; ind--){
+			IndexedPoint2D current = m_path.get(ind);
+			if(isFound){
+				if(current.distanceSquared(loc)<=radius*radius && current.index>ret.index)
+					ret = current;
+			}else
+				if(ret == null || current.distanceSquared(loc) <= ret.distanceSquared(loc)){
+					ret = current;
+					if(ret.distanceSquared(loc) <=radius*radius)
+						isFound = true;
+				}
+		}
 		return ret;
 	}
 

@@ -9,6 +9,7 @@ import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLineRight;
 import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchMiddleReverse;
 import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchRightReverse;
 import org.usfirst.frc.team4590.robot.commands.autonomous.drives.AutoReverseDriveMiddle;
+import org.usfirst.frc.team4590.robot.commands.autonomous.motion.AutoMotionTest;
 import org.usfirst.frc.team4590.robot.commands.cannon.WaitToWindCannon;
 import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveForwardsByMeters;
@@ -23,9 +24,10 @@ import org.usfirst.frc.team4590.robot.subsystems.Pin;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
 import org.usfirst.frc.team4590.robot.subsystems.Shifter;
 import org.usfirst.frc.team4590.utils.CameraSender;
-import org.usfirst.frc.team4590.utils.GBGameData;
-import org.usfirst.frc.team4590.utils.Lengths;
-import org.usfirst.frc.team4590.utils.ShifterState;
+import org.usfirst.frc.team4590.utils.CTRE.TalonManager;
+import org.usfirst.frc.team4590.utils.enums.ShifterState;
+import org.usfirst.frc.team4590.utils.gameData.GBGameData;
+import org.usfirst.frc.team4590.utils.gameData.Lengths;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -81,7 +83,7 @@ public class Robot extends IterativeRobot {
 		//CameraServer.getInstance().getVideo().getSource().setResolution(320, 240);
 		
 		m_autonomousChooser = new SendableChooser<>();
-//		m_autonomousChooser.addObject("Auto Motion Test", new AutoMotionTest());
+		m_autonomousChooser.addObject("Auto Motion Test", new AutoMotionTest());
 		m_autonomousChooser.addObject("REVERSE AutoSwitch left", new AutoSwitchLeftReverse());
 		m_autonomousChooser.addDefault("REVERSE AutoSwitch middle", new AutoSwitchMiddleReverse());
 		m_autonomousChooser.addObject("REVERSE AutoSwitch right", new AutoSwitchRightReverse());
@@ -94,6 +96,12 @@ public class Robot extends IterativeRobot {
 		m_autonomousChooser.addObject("stupid shit", new ArcadeDriveByValues(-0.7, 0, 4000));
 		
 		SmartDashboard.putData("Autonomous chooser", m_autonomousChooser);
+	}
+
+	@Override
+	public void robotPeriodic() {
+		updateSubsystems();
+		TalonManager.stupidShitThatCTREMakesMeDo();
 	}
 	
 	@Override
@@ -112,7 +120,6 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		updateSubsystems();
 		Scheduler.getInstance().run();
 	}
 	
@@ -125,7 +132,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		updateSubsystems();		
 		Scheduler.getInstance().run();
 	}
 	
@@ -133,7 +139,7 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		Chassis.getInstance().resetGyro();
 		Chassis.getInstance().resetEncoders();
-//		Chassis.getInstance().resetLocalizer();
+		Chassis.getInstance().resetLocalizer();
 	}
 	
 	@Override

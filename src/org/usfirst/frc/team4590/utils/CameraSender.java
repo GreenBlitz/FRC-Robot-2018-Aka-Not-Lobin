@@ -61,8 +61,11 @@ public class CameraSender {
 			// cameraFeed.set(4, m_outHeight);
 			// cameraFeed.set(propId, value)
 			camera = new UsbCamera("/dev/video0", 0);
+			
 			cameraFeed = new CvSink("/dev/video0");
-			camera.setBrightness(50);
+		
+			camera.setBrightness(25);
+			camera.setExposureAuto();
 			cameraFeed.setSource(camera);
 			videoFeed = CameraServer.getInstance().putVideo("Minimized Camera", m_outWidth, m_outHeight);
 		}

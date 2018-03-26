@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
-import org.usfirst.frc.team4590.utils.ControlledMotorAccelerator;
-import org.usfirst.frc.team4590.utils.MotorAccelerationFunction;
+import org.usfirst.frc.team4590.utils.CTRE.ControlledMotorAccelerator;
+import org.usfirst.frc.team4590.utils.CTRE.MotorAccelerationFunction;
 
 public class CloseClawControlled extends ClosingClawCommand {
 
@@ -36,7 +36,7 @@ public class CloseClawControlled extends ClosingClawCommand {
 	
 	public void executeCommand(){
 		if (m_isFinished){
-			Claw.getInstance().setPower(-Claw.getDefaultPower());
+			Claw.getInstance().setPower(1);
 		}
 		m_accelerator.run();
 		if (m_accelerator.isOnTarget()){
@@ -47,6 +47,4 @@ public class CloseClawControlled extends ClosingClawCommand {
 	}
 	
 	public void end(){ Claw.getInstance().setPower(0);}
-	
-
 }

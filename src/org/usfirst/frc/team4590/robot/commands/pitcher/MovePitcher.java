@@ -6,8 +6,8 @@ import org.usfirst.frc.team4590.robot.commands.claw.ClosingClawCommand;
 import org.usfirst.frc.team4590.robot.subsystems.Cannon;
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
-import org.usfirst.frc.team4590.utils.PitcherDirection;
-import org.usfirst.frc.team4590.utils.PitcherState;
+import org.usfirst.frc.team4590.utils.enums.PitcherDirection;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;

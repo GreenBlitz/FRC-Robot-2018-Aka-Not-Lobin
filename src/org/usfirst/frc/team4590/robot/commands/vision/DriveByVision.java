@@ -16,6 +16,11 @@ public class DriveByVision extends Command {
 		requires(Chassis.getInstance());
 	}
 	
+	public DriveByVision(long timeout) {
+		super(timeout/1000d);
+		requires(Chassis.getInstance());
+	}
+	
 	@Override
 	protected void initialize() {
 		System.out.println("Driving by vision");
@@ -23,7 +28,7 @@ public class DriveByVision extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return isTimedOut();
 	}
 	
 	public void execute(){

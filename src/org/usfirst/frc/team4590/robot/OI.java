@@ -8,9 +8,9 @@ import org.usfirst.frc.team4590.robot.commands.intake.ShootToSwitch;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.commands.shifter.ManualSwitchShifts;
 import org.usfirst.frc.team4590.robot.commands.vision.DriveByVision;
-import org.usfirst.frc.team4590.utils.PitcherState;
 import org.usfirst.frc.team4590.utils.SmartJoystick;
 import org.usfirst.frc.team4590.utils.SmartJoystick.JoystickAxis;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 public class OI {
 

@@ -19,7 +19,7 @@ public class OpenClaw extends Command {
 
 	@Override
 	protected void execute() {
-		Claw.getInstance().setPower(-Claw.getDefaultPower());
+		Claw.getInstance().setPower(-1);
 	}
 
 	@Override

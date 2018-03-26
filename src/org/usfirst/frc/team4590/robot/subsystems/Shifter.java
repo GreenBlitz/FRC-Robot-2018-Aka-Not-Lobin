@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
-import org.usfirst.frc.team4590.utils.ShifterState;
+import org.usfirst.frc.team4590.utils.enums.ShifterState;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;

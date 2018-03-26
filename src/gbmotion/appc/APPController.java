@@ -106,7 +106,7 @@ public class APPController extends IterativeController<IPoint2D, APPController.A
 	 * @return new goal point
 	 */
 	private IPoint2D updateGoalPoint(IPoint2D loc, ArenaMap map, double lookAhead) {
-		IPoint2D tmp = map.lastPointInRangeBF(loc, 0, lookAhead);
+		IPoint2D tmp = map.lastPointInRange(loc, lookAhead, true);
 		Robot.managedPrinter.println(getClass(), "next goal point: " + tmp);
 		if (tmp != null) {
 			tmp.toDashboard("Goal point");

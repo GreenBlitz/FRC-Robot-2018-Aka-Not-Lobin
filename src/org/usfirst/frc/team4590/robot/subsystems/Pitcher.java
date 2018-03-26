@@ -4,9 +4,9 @@ import org.usfirst.frc.team4590.robot.RobotMap;
 import org.usfirst.frc.team4590.robot.commands.pitcher.HoldPitcher;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.robot.commands.pitcher.PitcherCommand;
-import org.usfirst.frc.team4590.utils.PitcherDirection;
-import org.usfirst.frc.team4590.utils.PitcherState;
-import org.usfirst.frc.team4590.utils.SmartTalon;
+import org.usfirst.frc.team4590.utils.CTRE.SmartTalon;
+import org.usfirst.frc.team4590.utils.enums.PitcherDirection;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -24,8 +24,8 @@ public class Pitcher extends Subsystem {
 	public static final double DOWN_ANGLE = 0,
 							   UP_ANGLE = 180,
 							   EQUALIBRIUM_ANGLE = 130,
-							   DOWN_STATE = 0.777,
-							   UP_STATE = 0.141;
+							   DOWN_STATE = 0.757,
+							   UP_STATE = 0.133;
 	
 	private PitcherDirection m_direction = PitcherDirection.STATIONARY;
 	

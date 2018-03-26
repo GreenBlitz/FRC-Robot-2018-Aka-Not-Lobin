@@ -10,7 +10,7 @@ public class CloseClawUntillSafe extends ClosingClawCommand {
 	
 	@Override
 	protected void executeCommand() {
-		Claw.getInstance().setPower(Claw.getDefaultPower());
+		Claw.getInstance().setPower(1);
 	}
 	
 	@Override

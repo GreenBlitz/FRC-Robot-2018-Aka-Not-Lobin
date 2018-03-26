@@ -16,15 +16,29 @@ import gbmotion.util.RobotStats;
  */
 public class APPCOutput implements Output<APPController.APPDriveData> {
 	private static final double POWER_FACTOR = 0.9;
-	private static final double FULL_POWER = 0.8;
-	private static final double ROTATION_FACTOR = -2.5;// RobotStats.VERTICAL_WHEEL_DIST
+	private static final double FULL_POWER = 1; //0.8
+	private static final double DEFAULT_ROTATION_FACTOR = -2.5;// RobotStats.VERTICAL_WHEEL_DIST
 														// /
 														// RobotStats.HORIZONTAL_WHEEL_DIST;
 
+	private static double ROTATION_FACTOR = DEFAULT_ROTATION_FACTOR;
+	
 	private EnvironmentPort ePort = EnvironmentPort.DEFAULT;
 	private DrivePort dPort = DrivePort.DEFAULT;
 	private final int m_inverted;
 
+	public static void setRotationFactor(double value) {
+		ROTATION_FACTOR = value;
+	}
+	
+	public static void resetRotationFactor() {
+		ROTATION_FACTOR = DEFAULT_ROTATION_FACTOR;
+	}
+	
+	public static double getDefaultRotationFactor() {
+		return DEFAULT_ROTATION_FACTOR;
+	}
+	
 	public APPCOutput(EnvironmentPort ePort, DrivePort dPort) {
 		this.ePort = ePort;
 		this.dPort = dPort;

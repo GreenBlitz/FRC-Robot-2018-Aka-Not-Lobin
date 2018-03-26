@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
-import org.usfirst.frc.team4590.utils.SmartTalon;
+import org.usfirst.frc.team4590.utils.CTRE.SmartTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

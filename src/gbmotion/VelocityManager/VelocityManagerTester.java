@@ -1,6 +1,6 @@
 package gbmotion.VelocityManager;
 
-import org.usfirst.frc.team4590.utils.CANRobotDrive;
+import org.usfirst.frc.team4590.utils.CTRE.CANRobotDrive;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;

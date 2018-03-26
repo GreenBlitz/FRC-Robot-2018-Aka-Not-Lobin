@@ -3,8 +3,8 @@ package org.usfirst.frc.team4590.robot.commands.commandChains;
 import org.usfirst.frc.team4590.robot.commands.claw.CloseClaw;
 import org.usfirst.frc.team4590.robot.commands.claw.OpenClawOnWings;
 import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
-import org.usfirst.frc.team4590.utils.CommandChain;
-import org.usfirst.frc.team4590.utils.PitcherState;
+import org.usfirst.frc.team4590.utils.commandChain.CommandChain;
+import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
 

@@ -32,7 +32,6 @@ public abstract class IterativeController<IN, OUT> extends AbstractController<IN
 	 */
 	public IterativeController(Input<IN> in, Output<OUT> out, IN destination, double period, String name) {
 		super(in, out, destination, name);
-
 		m_period = period;
 
 		m_controllerLoop = new Timer();
@@ -166,6 +165,7 @@ public abstract class IterativeController<IN, OUT> extends AbstractController<IN
 	}
 
 	public void free() {
+		Robot.managedPrinter.warnln(IterativeController.class, "controller has been freed");
 		try {
 			m_controllerLoop.cancel();
 		} catch (NullPointerException e) {

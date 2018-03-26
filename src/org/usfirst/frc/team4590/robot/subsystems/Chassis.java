@@ -3,8 +3,8 @@ package org.usfirst.frc.team4590.robot.subsystems;
 import org.usfirst.frc.team4590.robot.OI;
 import org.usfirst.frc.team4590.robot.RobotMap;
 import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByJoystick;
-import org.usfirst.frc.team4590.utils.CANRobotDrive;
-import org.usfirst.frc.team4590.utils.CANRobotDrive.TalonID;
+import org.usfirst.frc.team4590.utils.CTRE.CANRobotDrive;
+import org.usfirst.frc.team4590.utils.CTRE.CANRobotDrive.TalonID;
 
 import com.ctre.phoenix.ErrorCode;
 import com.kauailabs.navx.frc.AHRS;
@@ -41,7 +41,6 @@ public class Chassis extends Subsystem {
 	}
 
 	private Chassis() {
-
 		m_robotDrive = new CANRobotDrive(RobotMap.CHASSIS_FRONT_LEFT_MOTOR_PORT, RobotMap.CHASSIS_REAR_LEFT_MOTOR_PORT,
 				RobotMap.CHASSIS_FRONT_RIGHT_MOTOR_PORT, RobotMap.CHASSIS_REAR_RIGHT_MOTOR_PORT);
 		m_leftEncoder = new SmartEncoder(m_robotDrive.getTalon(TalonID.REAR_LEFT), TICKS_PER_METER, TICKS_PER_METER);
@@ -51,7 +50,7 @@ public class Chassis extends Subsystem {
 		m_leftEncoder.reset();
 		m_rightEncoder.reset();
 		m_navx.reset();
-//		initMotion();
+		initMotion();
 	}
 
 	
@@ -59,7 +58,7 @@ public class Chassis extends Subsystem {
 		SmartEncoder left = DrivePort.DEFAULT.getEndoder(true);
 		SmartEncoder right = DrivePort.DEFAULT.getEndoder(false);
 		m_localizer = Localizer.of(right, left, RobotStats.Icarus.Chassis.HORIZONTAL_DISTANCE.value, m_navx);
-		m_localizer = Localizer.of(left.invert(), right.invert(), RobotStats.Icarus.Chassis.HORIZONTAL_DISTANCE.value, m_navx);
+		m_reversedLocalizer = Localizer.of(left.invert(), right.invert(), RobotStats.Icarus.Chassis.HORIZONTAL_DISTANCE.value, m_navx);
 		m_localizer.reset();
 		m_reversedLocalizer.reset();
 		m_localizer.start();
@@ -101,7 +100,6 @@ public class Chassis extends Subsystem {
 		SmartDashboard.putNumber("Chassis Distance", getDistance());
 		SmartDashboard.putNumber("Chassis left ticks", getLeftTicks());
 		SmartDashboard.putNumber("Chassis rightticks", getRightTicks());
-
 	}
 
 	public void arcadeDrive(double moveValue, double rotateValue) {
@@ -154,7 +152,7 @@ public class Chassis extends Subsystem {
 
 	public void resetSensors() {
 		resetGyro();
-		// resetEncoders();
+		resetEncoders();
 	}
 
 	public void resetGyro() {

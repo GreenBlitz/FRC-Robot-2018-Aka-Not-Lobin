@@ -2,7 +2,7 @@ package org.usfirst.frc.team4590.robot.commands.shifter;
 
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
 import org.usfirst.frc.team4590.robot.subsystems.Shifter;
-import org.usfirst.frc.team4590.utils.ShifterState;
+import org.usfirst.frc.team4590.utils.enums.ShifterState;
 
 import edu.wpi.first.wpilibj.command.Command;
 

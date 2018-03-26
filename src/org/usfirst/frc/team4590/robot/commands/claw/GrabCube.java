@@ -6,14 +6,18 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class GrabCube extends ClosingClawCommand {
 
-	public GrabCube() {
-		super(1.5);
+	public GrabCube(long timeout) {
+		super(timeout/1000d);
 		requires(Claw.getInstance());
+	}
+	
+	public GrabCube() {
+		this(1500);
 	}
 
 	@Override
 	protected void executeCommand() {
-		Claw.getInstance().setPower(Claw.getDefaultPower());
+		Claw.getInstance().setPower(1);
 	}
 	
 	@Override
