@@ -39,5 +39,6 @@ public class ShootToScale extends Command {
 		Cannon.getInstance().setReadyToShoot(false);
 		Pin.getInstance().setPiston(Value.kForward);
 		Scheduler.getInstance().add(new PitcherDownAfterCannon());
+		System.out.println("shot to scale");
 	}
 }

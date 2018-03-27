@@ -20,18 +20,28 @@ import gbmotion.path.PathFactory;
 public class AutoLeftLeftScaleReverse extends CommandChain {
 
 	public AutoLeftLeftScaleReverse(){
-		ArenaMap map = new ArenaMap();
-		new PathFactory().connectLine(0,Lengths.SCALE_FROM_ALLIANCE_WALL, 0.01).construct(map);
+//		ArenaMap map = new ArenaMap();
+//		new PathFactory().connectLine(0,Lengths.SCALE_FROM_ALLIANCE_WALL, 0.01).construct(map);
+//		Command grabCube = new PickupCube(),
+//				driveVertical = new APPCMove(map, 1, 0.1, 0, 0, true),
+//				rotate = new RotateByDegrees(180, false),
+//				pitcherSwitchBack = new MovePitcher(PitcherState.PLATE),
+//				shootCube = new OpenClawAndShootToScale();
+//		
+//		addCommand(grabCube);
+//		addParallel(driveVertical);
+//		addSequential(rotate);
+//		addParallel(pitcherSwitchBack);
+//		addSequential(shootCube);
+		
 		Command grabCube = new PickupCube(),
-				driveVertical = new APPCMove(map, 1, 0.1, 0, 0, true),
-				rotate = new RotateByDegrees(180, false),
-				pitcherSwitchBack = new MovePitcher(PitcherState.PLATE),
-				shootCube = new OpenClawAndShootToScale();
+				driveToScale = new DriveForwardsByMeters(9, 0, true, false),
+				pitcherToPlate = new MovePitcher(PitcherState.PLATE),
+				shootToScale = new ShootToScale();
 		
 		addCommand(grabCube);
-		addParallel(driveVertical);
-		addSequential(rotate);
-		addParallel(pitcherSwitchBack);
-		addSequential(shootCube);
+		addParallel(driveToScale, grabCube);
+		addParallel(pitcherToPlate, grabCube);
+		addSequential(shootToScale);
 	}
 }

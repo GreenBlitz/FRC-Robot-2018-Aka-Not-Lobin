@@ -1,10 +1,12 @@
 package org.usfirst.frc.team4590.utils.commandChain;
 
+import java.lang.reflect.Field;
 import java.util.Vector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CommandChain extends Command {
+	
 	
 	public CommandChain() {
 		addCommand(new Command() {protected boolean isFinished() {return true;}});
@@ -29,7 +31,7 @@ public class CommandChain extends Command {
 		for (ParallelCommand parallelCommand : m_commands) {
 			if (parallelCommand.contains(after)) {
 				try {
-				m_commands.get(m_commands.indexOf(parallelCommand) + 1).addParallel(toRun);
+				m_commands.get(m_commands.indexOf(parallelCommand) + 1).addCommand(toRun);
 				} catch (Exception e) {
 					m_commands.add(new ParallelCommand(toRun));
 				}
@@ -50,7 +52,7 @@ public class CommandChain extends Command {
 	protected final void addParallel(Command toRun, Command with) {
 		for (ParallelCommand parallelCommand : m_commands) {
 			if (parallelCommand.contains(with)) {
-				parallelCommand.addParallel(toRun);
+				parallelCommand.addCommand(toRun);
 				return;
 			}
 		}
@@ -60,7 +62,6 @@ public class CommandChain extends Command {
 
 	@Override
 	protected final void initialize() {
-		System.out.println("Running command chain: " + getName());
 		if (!m_hasRan){
 			m_hasRan = true;
 			onFirstRun();
@@ -74,10 +75,12 @@ public class CommandChain extends Command {
 	@Override
 	protected final void execute() {
 		ParallelCommand currentCommands = m_commands.get(m_currentCommand);
-		if (currentCommands.isCompleted()) {
+		if (currentCommands.isFinished()) {
 			m_currentCommand++;
-			if (!isFinished())
+			if (!isFinished()) {
 				m_commands.get(m_currentCommand).runCommands();
+				return;
+			}
 		}
 	}
 	

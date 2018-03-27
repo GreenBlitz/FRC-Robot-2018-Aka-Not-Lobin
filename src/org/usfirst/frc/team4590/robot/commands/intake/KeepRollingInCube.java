@@ -2,16 +2,14 @@ package org.usfirst.frc.team4590.robot.commands.intake;
 
 import org.usfirst.frc.team4590.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-class KeepRollingInCube extends Command {
+class KeepRollingInCube extends IntakeCommand {
 	
 	public KeepRollingInCube() {
 		requires(Intake.getInstance());
 	}
 
 	@Override
-	protected void execute() {
+	protected void executeCommand() {
 		Intake.getInstance().setPower(-0.1);
 	}
 	

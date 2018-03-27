@@ -2,9 +2,7 @@ package org.usfirst.frc.team4590.robot.commands.intake;
 
 import org.usfirst.frc.team4590.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class ShootToSwitch extends Command {
+public class ShootToSwitch extends IntakeCommand {
 
 	private static final double POWER = 1;
 	
@@ -22,7 +20,7 @@ public class ShootToSwitch extends Command {
 		System.out.println("Shooting cube");
 	}
 	
-    protected void execute() {
+    protected void executeCommand() {
     	Intake.getInstance().setPower(POWER);
     }
     

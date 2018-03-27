@@ -16,7 +16,7 @@ public class AutoMiddleRightSwitchReverse extends CommandChain {
 
 	public AutoMiddleRightSwitchReverse() {
 		Command grabCube = new PickupCube(),
-				driveToMiddle = new DriveForwardsByMeters(-((Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)/2 + 0.3)),
+				driveToMiddle = new DriveForwardsByMeters(-((Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)/3)),
 				rotateBy90 = new RotateByDegrees(90, false),
 				driveSidewaysToPlate = new DriveForwardsByMeters(-(Lengths.SWITCH_MIDDLE_TO_PLATE_MIDDLE + 0.35), 90, true, false),
 				rotateBack = new RotateByDegrees(0, false),

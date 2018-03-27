@@ -2,7 +2,9 @@ package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
 
-public class AcceleratedOpenClaw extends ClosingClawCommand {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class AcceleratedOpenClaw extends Command {
 
 	private static final long DEFAULT_TIMEOUT = 1500;
 	private static final double MAX_VOLTAGE = 3;
@@ -22,10 +24,11 @@ public class AcceleratedOpenClaw extends ClosingClawCommand {
 	@Override
 	protected void initialize() {
 		m_startTime = System.currentTimeMillis();
+		System.out.println("Atsmon was wrong");
 	}
 	
 	@Override
-	protected void executeCommand() {
+	protected void execute() {
 		long timeSinceInitialized = System.currentTimeMillis() - m_startTime;
 		double voltage;
 		

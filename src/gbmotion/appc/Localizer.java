@@ -233,7 +233,7 @@ public class Localizer implements Input<IPoint2D> {
 
 				if (angleChange <= Math.abs(Math.PI / 120)) {
 					synchronized (LOCK) {
-						m_location.moveBy(0, (leftDistDiff + rightDistDiff) / 2, m_location.getDirection(),
+						m_location.moveBy(0, (leftDistDiff) , m_location.getDirection(),
 								DirectionEffect.RESERVED);
 						m_location.setDirection(getAngleRadians());
 					}

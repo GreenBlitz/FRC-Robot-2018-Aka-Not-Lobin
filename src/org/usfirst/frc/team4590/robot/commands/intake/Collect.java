@@ -2,9 +2,7 @@ package org.usfirst.frc.team4590.robot.commands.intake;
 
 import org.usfirst.frc.team4590.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class Collect extends Command {
+public class Collect extends IntakeCommand {
 	
 	private double m_power;
 	
@@ -27,7 +25,7 @@ public class Collect extends Command {
 		this(Intake.getDefaultPower());
 	}
 	
-    protected void execute() {
+    protected void executeCommand() {
     	Intake.getInstance().setPower(m_power);
     }
 

@@ -23,16 +23,14 @@ public abstract class ClosingClawCommand extends Command {
 							   		 && Pitcher.getInstance().isSafeToOpenUpward(),
 				shouldUnlockStationary = Pitcher.getInstance().getDirection() == PitcherDirection.STATIONARY;
 	
-		setInterruptible(shouldUnlockStationary || shouldUnlockUpward || shouldUnlockDownward);
+//		setInterruptible(shouldUnlockStationary || shouldUnlockUpward || shouldUnlockDownward);
 		
-		if (Pin.getInstance().isWorking() &&
-			Cannon.getInstance().isPlatformDown() || 
+		if ((Pin.getInstance().isWorking() && Cannon.getInstance().isPlatformDown()) || 
 			!Cannon.getInstance().hasStartedWinding() || 
 			Pitcher.getInstance().getAngle() < 90)
 			executeCommand();
 		else
 			System.out.println("Cant Close claw");
-		
 	}
 	
 	protected abstract void executeCommand();

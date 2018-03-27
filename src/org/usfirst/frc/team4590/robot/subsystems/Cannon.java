@@ -47,7 +47,7 @@ public class Cannon extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new PullDownPlatform());
+		setDefaultCommand(new PullDownPlatform());
 	}
 	
 	public void setPower(double power) {

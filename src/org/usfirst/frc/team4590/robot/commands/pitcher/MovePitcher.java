@@ -43,13 +43,11 @@ public class MovePitcher extends Command implements PitcherCommand {
 		System.out.println(m_unchangedToState.name());
 		setToState(m_unchangedToState);
 		
-//		System.out.println("Trying to move pitcher to: " + m_toState.name());
-		
-		if (Robot.getInstance().isEndgame() && m_toState != PitcherState.SWITCH_BACKWARD) {
-			setToState(PitcherState.SWITCH_BACKWARD);
-			System.out.println("Cannot move pitcher to anywhere but the"
-					+ " SWITCH_BACKWARD position during endgame.");
-		}
+//		if (Robot.getInstance().isEndgame() && m_toState != PitcherState.SWITCH_BACKWARD) {
+//			setToState(PitcherState.SWITCH_BACKWARD);
+//			System.out.println("Cannot move pitcher to anywhere but the"
+//					+ " SWITCH_BACKWARD position during endgame.");
+//		}
 		
 		if (Pin.getInstance().isWorking() && !Cannon.getInstance().isPlatformDown() && 
 			(m_toState == PitcherState.SWITCH_BACKWARD || m_toState == PitcherState.PLATE)) {
@@ -61,7 +59,7 @@ public class MovePitcher extends Command implements PitcherCommand {
 //		System.out.println("Moving pitcher to " + m_toState.name());
 		
 		if (m_toState == PitcherState.PLATE) 
-			Scheduler.getInstance().add(new Collect(0.2, 2000));
+			Scheduler.getInstance().add(new Collect(0.1, 2000));
 			
 		iterration = 0;
 		
@@ -75,10 +73,9 @@ public class MovePitcher extends Command implements PitcherCommand {
 		if(isClosing) {
 			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, true));
 		}
-		
 		else if (((goingUp && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
-				(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) 
-			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, false));
+				(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120)))
+			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, Pitcher.getInstance().getAngle() > 170));
 	}
 
 	@Override

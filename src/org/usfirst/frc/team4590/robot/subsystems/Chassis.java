@@ -128,31 +128,31 @@ public class Chassis extends Subsystem {
 	}
 
 	public double getDistance() {
-		return m_leftEncoder.getDistance() / 2 - m_rightEncoder.getDistance() / 2;
+		return -m_leftEncoder.getDistance() / 2 + m_rightEncoder.getDistance() / 2;
 	}
 
 	public double getSpeed() {
-		return (m_leftEncoder.getSpeed() - m_rightEncoder.getSpeed()) / 2;
+		return (-m_leftEncoder.getSpeed() + m_rightEncoder.getSpeed()) / 2;
 	}
 
 	public double getLeftDistance() {
-		return m_leftEncoder.getDistance();
+		return -m_leftEncoder.getDistance();
 	}
 
 	public double getRightDistance() {
-		return -m_rightEncoder.getDistance();
+		return m_rightEncoder.getDistance();
 	}
 
 	public int getLeftTicks() {
-		return m_leftEncoder.getTicks();
+		return -m_leftEncoder.getTicks();
 	}
 
 	public int getRightTicks() {
-		return -m_rightEncoder.getTicks();
+		return m_rightEncoder.getTicks();
 	}
 
 	public double getLeftSpeed() {
-		return m_leftEncoder.getSpeed();
+		return -m_leftEncoder.getSpeed();
 	}
 
 	public double getRightSpeed() {

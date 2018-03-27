@@ -49,6 +49,7 @@ public class Pin extends Subsystem {
 	}
 	
 	public boolean isWorking() {
-		return isPinWorking.getSelected();
+//		return isPinWorking.getSelected();
+		return true;
 	}
 }
