@@ -18,6 +18,9 @@ public class CommandChain extends Command {
 		m_commands.add(new ParallelCommand(toRun));
 	}
 	
+	/**
+	 *  Adds a command to run after the last entered group of parallel commands.
+	 */
 	protected final void addSequential(Command toRun) {
 		addCommand(toRun);
 	}
@@ -35,6 +38,13 @@ public class CommandChain extends Command {
 		}
 		throw new IllegalArgumentException("The Command " + after.getName() + 
 				" is not a part of this command chain. please enter it beforehand.");
+	}
+	
+	/**
+	 * Adds a command to run with the last entered group of parallel commands.
+	 */
+	protected final void addParallel(Command toRun) {
+		addParallel(toRun, m_commands.lastElement().getParallelCommands().get(0));
 	}
 	
 	protected final void addParallel(Command toRun, Command with) {

@@ -7,6 +7,7 @@ import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
 import org.usfirst.frc.team4590.utils.enums.PitcherState;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WaitForShooter extends Command {
 
@@ -16,9 +17,14 @@ public class WaitForShooter extends Command {
 
 	@Override
 	protected void execute() {
-		setInterruptible(Cannon.getInstance().isReadyToShoot() && 
-						 Pitcher.getInstance().getCurrentState() == PitcherState.PLATE && 
-						 Claw.getInstance().isOpen());
+		boolean isSafeToShoot = (Pitcher.getInstance().getCurrentState() == PitcherState.PLATE && 
+								Claw.getInstance().isOpen()) || 
+								Pitcher.getInstance().getAngle() < 90;
+
+		setInterruptible(Cannon.getInstance().isReadyToShoot() && isSafeToShoot);
+	
+		SmartDashboard.putBoolean("isSafeToShoot", isSafeToShoot);
+		SmartDashboard.putBoolean("waitforshooter isinterruptble", isInterruptible());
 	}
 	
 	@Override

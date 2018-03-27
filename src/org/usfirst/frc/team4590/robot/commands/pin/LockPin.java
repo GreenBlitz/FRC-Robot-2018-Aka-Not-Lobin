@@ -5,18 +5,15 @@ import org.usfirst.frc.team4590.robot.subsystems.Pin;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetPin extends Command {
+public class LockPin extends Command {
 	
-	private Value m_value;
-	
-	public SetPin(Value value) {
+	public LockPin(Value value) {
 		requires(Pin.getInstance());
-		m_value = value;
 	}
 	
 	@Override
 	protected void execute() {
-		Pin.getInstance().setPiston(m_value);
+		Pin.getInstance().setPiston(Value.kForward);
 	}
 	
 	@Override

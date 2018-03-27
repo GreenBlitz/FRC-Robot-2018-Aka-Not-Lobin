@@ -2,26 +2,21 @@ package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
 
-import edu.wpi.first.wpilibj.command.Scheduler;
-
 public class AcceleratedOpenClaw extends ClosingClawCommand {
 
-	private static final long DEFAULT_DECEL_TIME = 500,
-							  DEFAULT_TIMEOUT = 1500;
+	private static final long DEFAULT_TIMEOUT = 1500;
 	private static final double MAX_VOLTAGE = 3;
 	
 	private long m_decelTime, m_startTime, m_timeout;
-	private boolean m_shouldHold;
 	
-	public AcceleratedOpenClaw(long decelTime, long timeout, boolean shouldHold) {
-		m_timeout = timeout;
+	public AcceleratedOpenClaw(long decelTime, long timeout) {
 		requires(Claw.getInstance());
+		m_timeout = timeout;
 		m_decelTime = decelTime;
-		m_shouldHold = shouldHold;
 	}
 	
-	public AcceleratedOpenClaw() {
-		this(DEFAULT_DECEL_TIME, DEFAULT_TIMEOUT, false);
+	public AcceleratedOpenClaw(long decelTime) {
+		this(decelTime, DEFAULT_TIMEOUT);
 	}
 	
 	@Override
@@ -31,8 +26,8 @@ public class AcceleratedOpenClaw extends ClosingClawCommand {
 	
 	@Override
 	protected void executeCommand() {
-		double timeSinceInitialized = System.currentTimeMillis() - m_startTime,
-			   voltage;
+		long timeSinceInitialized = System.currentTimeMillis() - m_startTime;
+		double voltage;
 		
 		if (timeSinceInitialized < m_decelTime)
 			voltage = (MAX_VOLTAGE - (timeSinceInitialized / m_decelTime) * (MAX_VOLTAGE - Claw.VOLTAGE_LIMIT));
@@ -41,19 +36,21 @@ public class AcceleratedOpenClaw extends ClosingClawCommand {
 		
 		Claw.getInstance().setVoltageCompensation(voltage);
 		
-		Claw.getInstance().setPower(-1);
+		if (!Claw.getInstance().isOpen())
+			Claw.getInstance().setPower(-1);
+		else
+			Claw.getInstance().setPower(0);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return Claw.getInstance().isOpen() || isTimedOut();
+		long timeSinceInitialized = System.currentTimeMillis() - m_startTime;
+		return Claw.getInstance().isOpen() || timeSinceInitialized > m_timeout;
 	}
 	
 	@Override
 	protected void end() {
 		Claw.getInstance().stop();
 		Claw.getInstance().setVoltageCompensation(Claw.VOLTAGE_LIMIT);
-		if(m_shouldHold) 
-			Scheduler.getInstance().add(new HoldCube());
 	}
 }

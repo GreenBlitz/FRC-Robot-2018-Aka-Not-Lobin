@@ -81,18 +81,31 @@ public class Chassis extends Subsystem {
 		return reverse ? m_reversedLocalizer : m_localizer;
 	}
 
-	public void startLocalizer() {
-		m_localizer.start();
+	public void startLocalizer(boolean reverse) {
+		if (reverse)
+			m_reversedLocalizer.start();
+		else
+			m_localizer.start();
 	}
 
-	public void stopLocalizer() {
-		m_localizer.stop();
+	public void stopLocalizer(boolean reverse) {
+		if (reverse)
+			m_reversedLocalizer.stop();
+		else	
+			m_localizer.stop();
 	}
 
-	public void resetLocalizer() {
-		m_localizer.reset();
+	public void resetLocalizer(boolean reverse) {
+		if (reverse)
+			m_reversedLocalizer.reset();
+		else
+			m_localizer.reset();
 	}
 	
+	public void resetLocalizers() {
+		resetLocalizer(true);
+		resetLocalizer(false);
+	}
 
 	public void update() {
 		SmartDashboard.putString("Chassis current command", getCurrentCommandName());

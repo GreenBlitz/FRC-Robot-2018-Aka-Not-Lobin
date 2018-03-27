@@ -200,10 +200,6 @@ public class Localizer implements Input<IPoint2D> {
 		 */
 		public void run() {
 
-			if (shouldReset) {
-				resetSelf();
-			}
-
 			if (ePort.isEnabled() && m_enabled) {
 				m_location.toDashboard("Robot location");
 
@@ -271,7 +267,6 @@ public class Localizer implements Input<IPoint2D> {
 
 			if (shouldReset) {
 				resetSelf();
-				shouldReset = false;
 			}
 		}
 	}
@@ -291,11 +286,13 @@ public class Localizer implements Input<IPoint2D> {
 	 * Reset the encoders and the localizer saved location.
 	 */
 	private void resetSelf() {
+		stop();
 		synchronized (LOCK) {
 			m_location = m_location.set(0, 0, 0);
 			referenceAngle = m_navx.getYaw();
 		}
-
+		shouldReset = false;
+		start();
 	}
 
 	public synchronized void reset() {
@@ -311,7 +308,6 @@ public class Localizer implements Input<IPoint2D> {
 	 */
 	public synchronized void start() {
 		m_enabled = true;
-		reset();
 	}
 
 	/**

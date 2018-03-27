@@ -1,10 +1,12 @@
 package org.usfirst.frc.team4590.robot.commands.pitcher;
 	
 import org.usfirst.frc.team4590.robot.Robot;
-import org.usfirst.frc.team4590.robot.commands.claw.CloseClawUntillSafe;
+import org.usfirst.frc.team4590.robot.commands.claw.AcceleratedCloseClaw;
 import org.usfirst.frc.team4590.robot.commands.claw.ClosingClawCommand;
+import org.usfirst.frc.team4590.robot.commands.intake.Collect;
 import org.usfirst.frc.team4590.robot.subsystems.Cannon;
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
+import org.usfirst.frc.team4590.robot.subsystems.Pin;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
 import org.usfirst.frc.team4590.utils.enums.PitcherDirection;
 import org.usfirst.frc.team4590.utils.enums.PitcherState;
@@ -25,6 +27,7 @@ public class MovePitcher extends Command implements PitcherCommand {
 
 	private static final long DOWN_ITERRATIONS = 2;
 	
+	private final PitcherState m_unchangedToState;
 	private long m_start;
 	private PitcherState m_toState;
 	private double m_toPosition, m_toAngle;
@@ -32,37 +35,50 @@ public class MovePitcher extends Command implements PitcherCommand {
 	
 	public MovePitcher(PitcherState toState) {
 		requires(Pitcher.getInstance());
-		setToState(toState);
+		m_unchangedToState = toState;
 	}
 	
 	@Override
-	protected void initialize() {	
-		System.out.println("Moving pitcher to " + m_toState.name());
+	protected void initialize() {
+		System.out.println(m_unchangedToState.name());
+		setToState(m_unchangedToState);
+		
+//		System.out.println("Trying to move pitcher to: " + m_toState.name());
+		
 		if (Robot.getInstance().isEndgame() && m_toState != PitcherState.SWITCH_BACKWARD) {
 			setToState(PitcherState.SWITCH_BACKWARD);
 			System.out.println("Cannot move pitcher to anywhere but the"
 					+ " SWITCH_BACKWARD position during endgame.");
 		}
-		if (!Cannon.getInstance().isPlatformDown() && 
-			(m_toState == PitcherState.PLATE || m_toState == PitcherState.SWITCH_BACKWARD)) {
+		
+		if (Pin.getInstance().isWorking() && !Cannon.getInstance().isPlatformDown() && 
+			(m_toState == PitcherState.SWITCH_BACKWARD || m_toState == PitcherState.PLATE)) {
 			setToState(PitcherState.COLLECT);
 			System.out.println("Cannot move pitcher to SWITCH_BACKWARD or PLATE "
 					+ "when the cannon platform is not down.");
 		}
 		
+//		System.out.println("Moving pitcher to " + m_toState.name());
+		
+		if (m_toState == PitcherState.PLATE) 
+			Scheduler.getInstance().add(new Collect(0.2, 2000));
+			
 		iterration = 0;
 		
 		m_start = System.currentTimeMillis();
 		
 		boolean goingUp = m_toPosition > Pitcher.getInstance().getPosition(),
-				isNotClosing = !(Claw.getInstance().getCurrentCommand() instanceof ClosingClawCommand);
+				isClosing = Claw.getInstance().getCurrentCommand() instanceof ClosingClawCommand;
 		
 		Pitcher.getInstance().setDirection(goingUp ? PitcherDirection.UP : PitcherDirection.DOWN);
 		
-		if (isNotClosing && 
-			((goingUp && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
-			(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) 
-			Scheduler.getInstance().add(new CloseClawUntillSafe());
+		if(isClosing) {
+			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, true));
+		}
+		
+		else if (((goingUp && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
+				(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) 
+			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, false));
 	}
 
 	@Override

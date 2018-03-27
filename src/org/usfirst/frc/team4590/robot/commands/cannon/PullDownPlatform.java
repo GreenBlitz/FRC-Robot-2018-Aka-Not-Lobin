@@ -9,7 +9,7 @@ public class PullDownPlatform extends Command {
 	
 	public PullDownPlatform() {
 		requires(Cannon.getInstance());
-		setInterruptible(false);
+//		setInterruptible(false);
 	}
 	
 	@Override

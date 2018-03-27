@@ -3,17 +3,17 @@ package org.usfirst.frc.team4590.robot;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLeftReverse;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLineLeft;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchLineRight;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchMiddleReverse;
-import org.usfirst.frc.team4590.robot.commands.autonomous.AutoSwitchRightReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoLine.AutoSwitchLineLeft;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoLine.AutoSwitchLineRight;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.left.AutoSwitchLeftReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.middle.AutoSwitchMiddleReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.right.AutoSwitchRightReverse;
 import org.usfirst.frc.team4590.robot.commands.autonomous.drives.AutoReverseDriveMiddle;
 import org.usfirst.frc.team4590.robot.commands.autonomous.motion.AutoMotionTest;
 import org.usfirst.frc.team4590.robot.commands.cannon.WaitToWindCannon;
 import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveForwardsByMeters;
-import org.usfirst.frc.team4590.robot.commands.pin.SetPin;
+import org.usfirst.frc.team4590.robot.commands.pin.LockPin;
 import org.usfirst.frc.team4590.robot.commands.shifter.SetShift;
 import org.usfirst.frc.team4590.robot.subsystems.Cannon;
 import org.usfirst.frc.team4590.robot.subsystems.Chassis;
@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 
 	private Command m_autonomousCommand;
 	private SendableChooser<Command> m_autonomousChooser;
-
+	
 	private boolean endgame = false;
 	
 	public static Robot getInstance() {
@@ -83,19 +83,18 @@ public class Robot extends IterativeRobot {
 		//CameraServer.getInstance().getVideo().getSource().setResolution(320, 240);
 		
 		m_autonomousChooser = new SendableChooser<>();
-		m_autonomousChooser.addObject("Auto Motion Test", new AutoMotionTest());
+		m_autonomousChooser.addDefault("Auto Motion Test", new AutoMotionTest());
 		m_autonomousChooser.addObject("REVERSE AutoSwitch left", new AutoSwitchLeftReverse());
-		m_autonomousChooser.addDefault("REVERSE AutoSwitch middle", new AutoSwitchMiddleReverse());
+		m_autonomousChooser.addObject("REVERSE AutoSwitch middle", new AutoSwitchMiddleReverse());
 		m_autonomousChooser.addObject("REVERSE AutoSwitch right", new AutoSwitchRightReverse());
 		m_autonomousChooser.addObject("REVERSE AutoLine left", new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)));
 		m_autonomousChooser.addObject("REVERSE AutoLine middle", new AutoReverseDriveMiddle());
 		m_autonomousChooser.addObject("REVERSE AutoLine right", new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)));
 		m_autonomousChooser.addObject("REVERSE AutoSwitchLine left", new AutoSwitchLineLeft());
 		m_autonomousChooser.addObject("REVERSE AutoSwitchLine right", new AutoSwitchLineRight());
-	
-		m_autonomousChooser.addObject("stupid shit", new ArcadeDriveByValues(-0.7, 0, 4000));
+//		m_autonomousChooser.addObject("stupid shit", new ArcadeDriveByValues(-0.7, 0, 4000));
 		
-		SmartDashboard.putData("Autonomous chooser", m_autonomousChooser);
+//		SmartDashboard.putData("Autonomous chooser", m_autonomousChooser);
 	}
 
 	@Override
@@ -108,6 +107,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		endgame = false;
 		Chassis.getInstance().resetSensors();
+		Chassis.getInstance().resetLocalizers();
 		/*Chassis.getInstance().resetLocalizer();
 		Chassis.getInstance().enableLocalizer();*/
 		Timer.delay(0.02);
@@ -139,7 +139,7 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		Chassis.getInstance().resetGyro();
 		Chassis.getInstance().resetEncoders();
-		Chassis.getInstance().resetLocalizer();
+		Chassis.getInstance().resetLocalizers();
 	}
 	
 	@Override
@@ -163,9 +163,10 @@ public class Robot extends IterativeRobot {
 										   && Claw.getInstance().isOpen()) 
 										   || Pitcher.getInstance().getAngle() < 90;
 		
-		Scheduler.getInstance().add(new SetPin(Value.kForward));
+		Scheduler.getInstance().add(new LockPin(Value.kForward));
 		Scheduler.getInstance().add(new SetShift(ShifterState.POWER));
-		if (Cannon.getInstance().isPlatformDown() || !isSafeToPullDownPlatform)
+		Cannon.getInstance().setReadyToShoot(Cannon.getInstance().isPlatformDown());
+		if (Cannon.getInstance().isReadyToShoot() || !isSafeToPullDownPlatform)
 			Scheduler.getInstance().add(new WaitToWindCannon());
 	}
 	

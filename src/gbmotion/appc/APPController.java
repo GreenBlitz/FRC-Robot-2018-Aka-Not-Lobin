@@ -14,7 +14,6 @@ import gbmotion.base.point.orientation.IOrientation2D;
 import gbmotion.path.ArenaMap;
 import gbmotion.path.IndexedPoint2D;
 
-
 public class APPController extends IterativeController<IPoint2D, APPController.APPDriveData> {
 	protected static final double DEFAULT_LOOKAHEAD = 0.6;
 	protected static final double DEFAULT_TOLERANCE_DIST = 0.05;
@@ -43,7 +42,7 @@ public class APPController extends IterativeController<IPoint2D, APPController.A
 	 * @param out
 	 *            The motor manager object
 	 * @param map
-	 * 			  The arena map object containing the path
+	 *            The arena map object containing the path
 	 */
 	public APPController(Input<IPoint2D> in, Output<APPController.APPDriveData> out, ArenaMap map) {
 		this(in, out, DEFAULT_PERIOD, map, DEFAULT_LOOKAHEAD, DEFAULT_TOLERANCE_DIST, DEFAULT_MIN_ON_TARGET_TIME,
@@ -110,7 +109,7 @@ public class APPController extends IterativeController<IPoint2D, APPController.A
 		Robot.managedPrinter.println(getClass(), "next goal point: " + tmp);
 		if (tmp != null) {
 			tmp.toDashboard("Goal point");
-			NetworkTable.getTable("motion").putNumber("pointIdx", ((IndexedPoint2D)tmp).getIndex());
+			NetworkTable.getTable("motion").putNumber("pointIdx", ((IndexedPoint2D) tmp).getIndex());
 		}
 		return tmp;
 	}
@@ -213,6 +212,7 @@ public class APPController extends IterativeController<IPoint2D, APPController.A
 	 *            the maximum power and the lower limit (absolute value)
 	 */
 	public void setPowerLimit(double limit) {
+		System.out.println("APPC poer limited to " + limit);
 		setPowerRange(-limit, limit);
 	}
 

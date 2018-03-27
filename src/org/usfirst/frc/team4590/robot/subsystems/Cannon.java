@@ -17,14 +17,13 @@ public class Cannon extends Subsystem {
 	private SmartTalon motor;
 	private DigitalInput platform, rope;
 	
-	private boolean readyToShoot = true,
+	private boolean readyToShoot = false,
 					startedWinding;
 	
 	private Cannon() {
 		motor = new SmartTalon(RobotMap.CANNON_MOTOR_PORT);
 		platform = new DigitalInput(RobotMap.CANNON_PLATFORM_MICROSWITCH_PORT);
 		rope = new DigitalInput(RobotMap.CANNON_ROPE_MICROSWITCH_PORT);
-		readyToShoot = isPlatformDown();
 	}
 	
 	public static Cannon getInstance() {
@@ -48,7 +47,7 @@ public class Cannon extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new PullDownPlatform());
+		//setDefaultCommand(new PullDownPlatform());
 	}
 	
 	public void setPower(double power) {

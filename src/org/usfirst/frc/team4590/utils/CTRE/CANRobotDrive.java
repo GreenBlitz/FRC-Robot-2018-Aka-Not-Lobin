@@ -14,11 +14,6 @@ public class CANRobotDrive {
 	}
 
 	public CANRobotDrive(int frontLeft, int rearLeft, int frontRight, int rearRight) {
-		/*
-		 * this(new CurrentBoundedTalon(frontLeft), new
-		 * CurrentBoundedTalon(rearLeft), new CurrentBoundedTalon(frontRight),
-		 * new CurrentBoundedTalon(rearRight));
-		 */
 		this(new SmartTalon(frontLeft), new SmartTalon(rearLeft), new SmartTalon(frontRight),
 				new SmartTalon(rearRight));
 	}
@@ -113,7 +108,6 @@ public class CANRobotDrive {
 	}
 
 	public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
-		System.out.println("Left: " + leftOutput + "\nRight: " + rightOutput);
 		m_frontLeft.set(m_frontLeftInverted * limit(leftOutput) * m_outputScale);
 		m_rearLeft.set(m_rearLeftInverted * limit(leftOutput) * m_outputScale);
 		m_frontRight.set(m_frontRightInverted * limit(rightOutput) * m_outputScale);

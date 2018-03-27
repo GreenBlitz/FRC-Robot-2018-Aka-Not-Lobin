@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class SmartTalon extends TalonSRX {
 
-	private boolean wasSetThisIterration; 
+	private boolean wasSet; 
 	
 	public SmartTalon(int deviceNumber) {
 		super(deviceNumber);
@@ -16,18 +16,18 @@ public class SmartTalon extends TalonSRX {
 	public void set(double power) {
 		m_lastValue = power;
 		set(ControlMode.PercentOutput, power);
-		wasSetThisIterration = true;
+		wasSet = true;
 	}
 	
 	public double getLastValue(){ 
 		return m_lastValue;
 	}
 	
-	public boolean wasSetThisIterration() {
-		return wasSetThisIterration;
+	public boolean wasSet() {
+		return wasSet;
 	}
 	
 	public void newIterration() {
-		wasSetThisIterration = false;
+		wasSet = false;
 	}
 }

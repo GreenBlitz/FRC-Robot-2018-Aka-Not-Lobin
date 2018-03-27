@@ -2,26 +2,24 @@ package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
 
+import edu.wpi.first.wpilibj.command.Scheduler;
+
 public class AcceleratedCloseClaw extends ClosingClawCommand {
 
-	private static final long DEFAULT_DECEL_TIME = 500;
 	private static final double MAX_VOLTAGE = 3;
 	
 	private long m_decelTime, m_startTime;
+	private boolean m_shouldHold, m_shouldEnd;
 	
-	public AcceleratedCloseClaw(long decelTime, long timeout) {
-		super(timeout/1000d);
+	public AcceleratedCloseClaw(long decelTime, boolean shouldHold, boolean shouldEnd) {
 		requires(Claw.getInstance());
 		m_decelTime = decelTime;
+		m_shouldHold = shouldHold;
+		m_shouldEnd = shouldEnd;
 	}
 	
-	public AcceleratedCloseClaw(long decelTime) {
-		requires(Claw.getInstance());
-		m_decelTime = decelTime;
-	}
-	
-	public AcceleratedCloseClaw() {
-		this(DEFAULT_DECEL_TIME);
+	public AcceleratedCloseClaw(long decelTime, boolean shouldHold) {
+		this(decelTime, shouldHold, true);
 	}
 	
 	@Override
@@ -31,8 +29,8 @@ public class AcceleratedCloseClaw extends ClosingClawCommand {
 	
 	@Override
 	protected void executeCommand() {
-		double timeSinceInitialized = System.currentTimeMillis() - m_startTime,
-			   voltage;
+		long timeSinceInitialized = System.currentTimeMillis() - m_startTime;
+		double voltage;
 		
 		if (timeSinceInitialized < m_decelTime)
 			voltage = (MAX_VOLTAGE - (timeSinceInitialized / m_decelTime) * (MAX_VOLTAGE - Claw.VOLTAGE_LIMIT));
@@ -46,12 +44,19 @@ public class AcceleratedCloseClaw extends ClosingClawCommand {
 
 	@Override
 	protected boolean isFinished() {
-		return isTimedOut();
+		long timeSinceInitialized = System.currentTimeMillis() - m_startTime;
+		return m_shouldEnd && timeSinceInitialized > m_decelTime;
 	}
 	
 	@Override
 	protected void end() {
 		Claw.getInstance().stop();
 		Claw.getInstance().setVoltageCompensation(Claw.VOLTAGE_LIMIT);
+
+		setInterruptible(true);
+		if(m_shouldHold)
+			Scheduler.getInstance().add(new HoldCube());
+		else
+			Scheduler.getInstance().add(new StopClaw());
 	}
 }

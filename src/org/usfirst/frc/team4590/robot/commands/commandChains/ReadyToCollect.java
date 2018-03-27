@@ -17,7 +17,7 @@ public class ReadyToCollect extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return Pitcher.getInstance().getAngle() < 90;
+		return Pitcher.getInstance().isSafeToOpenDownward();
 	}
 
 	@Override

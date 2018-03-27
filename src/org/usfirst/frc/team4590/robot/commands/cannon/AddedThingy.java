@@ -7,14 +7,16 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class AddedThingy extends Command {
 	
+	private static final double POWER = 0.3;
+	
 	public AddedThingy() {
 		requires(Cannon.getInstance());
-		setInterruptible(false);
+//		setInterruptible(false);
 	}
 	
 	@Override
 	protected void execute() {
-		Cannon.getInstance().setPower(Cannon.getDefaultPower());
+		Cannon.getInstance().setPower(POWER);
 	}
 	
 	@Override
@@ -24,6 +26,7 @@ public class AddedThingy extends Command {
 	
 	@Override
 	protected void end() {
+		Cannon.getInstance().setReadyToShoot(true);
 		Scheduler.getInstance().add(new WaitToWindCannon());
 	}
 }

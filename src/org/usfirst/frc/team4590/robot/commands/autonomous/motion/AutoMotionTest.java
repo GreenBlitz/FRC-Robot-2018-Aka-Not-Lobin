@@ -40,13 +40,12 @@ public class AutoMotionTest extends CommandChain {
 		
 		double length = Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH,
 			   length2 = Lengths.SWITCH_FROM_ALLIANCE_WALL + Lengths.SWITCH_WIDTH/2 - Lengths.ROBOT_LENGTH/2,
-			   length3 = Lengths.MIDDLE_OF_PLATFORM_ZONE_FLOOR_FROM_ALLIANCE_STATION + 0.2,
-			   extra = 0.25;
+			   length3 = Lengths.MIDDLE_OF_PLATFORM_ZONE_FLOOR_FROM_ALLIANCE_STATION;
 		
 		//PathFactory path = new PathFactory().connectLine(0, length / 2 - extra, 0.01)
 		//		.connectLine(length2, length / 2 + extra, 0.01).connectLine(length2, length, 0.01);
 		ArenaMap map1 = new ArenaMap();
-		PathFactory path1 = new PathFactory().connectLine(0.5, length ,0.01).connectLine(0, length2 - extra, 0.01);
+		PathFactory path1 = new PathFactory().connectLine(0.5, length ,0.01).connectLine(0, length2, 0.01);
 		path1.construct(map1);
 		
 		grabCube = new PickupCube();
@@ -56,7 +55,7 @@ public class AutoMotionTest extends CommandChain {
 		throwFirstCube = new ShootToSwitch(500);
 		
 		ArenaMap map2 = new ArenaMap();
-		PathFactory path2 = new PathFactory().connectLine(-0.05, -(length2 - extra), 0.01).connectLine(-0.05, -length3, 0.01).connectLine(0.9, -length3 - 0.05, 0.01);
+		PathFactory path2 = new PathFactory().connectLine(-0.05, -(length2), 0.01).connectLine(-0.05, -length3, 0.01).connectLine(0.9, -length3 - 0.05, 0.01);
 		path2.construct(map2);
 
 //		PathFactory path3 = new PathFactory().connectLine(0,-3.8,0.01).connectLine(-0.2,-5.1,0.01).connectLine(0.9
@@ -124,5 +123,6 @@ public class AutoMotionTest extends CommandChain {
 		addParallel(pitcherSwitchForward, driveBack);
 		addSequential(driveToSwitch);
 		addSequential(throwSecondCube);
+		// testing one cube
 	}
 }

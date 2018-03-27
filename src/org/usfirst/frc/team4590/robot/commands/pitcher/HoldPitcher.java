@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4590.robot.commands.pitcher;
 
+import org.usfirst.frc.team4590.robot.commands.claw.AcceleratedCloseClaw;
+import org.usfirst.frc.team4590.robot.commands.claw.ClosingClawCommand;
+import org.usfirst.frc.team4590.robot.subsystems.Claw;
 import org.usfirst.frc.team4590.robot.subsystems.Pitcher;
 import org.usfirst.frc.team4590.utils.enums.PitcherDirection;
 import org.usfirst.frc.team4590.utils.enums.PitcherState;

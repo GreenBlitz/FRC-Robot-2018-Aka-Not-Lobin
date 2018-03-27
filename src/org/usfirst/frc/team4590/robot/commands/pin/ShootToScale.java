@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ShootToScale extends Command {
 	
-	private static final long TIMEOUT = 250;
+	private static final long TIMEOUT = 500;
 	
 	private long m_startTime;
 	

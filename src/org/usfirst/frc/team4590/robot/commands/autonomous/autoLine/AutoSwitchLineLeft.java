@@ -1,19 +1,20 @@
-package org.usfirst.frc.team4590.robot.commands.autonomous;
+package org.usfirst.frc.team4590.robot.commands.autonomous.autoLine;
 
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.left.AutoSwitchLeftReverse;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveForwardsByMeters;
 import org.usfirst.frc.team4590.utils.commandChain.CommandChain;
 import org.usfirst.frc.team4590.utils.gameData.GBGameData;
 import org.usfirst.frc.team4590.utils.gameData.Lengths;
 import org.usfirst.frc.team4590.utils.gameData.GBGameData.GameEntity;
 
-public class AutoSwitchLineRight extends CommandChain {
-	
+public class AutoSwitchLineLeft extends CommandChain {
+
 	@Override
 	protected void onFirstRun() {
 		while (!GBGameData.getInstance().hasData(GameEntity.SWITCH)) {};
 		
-		if (GBGameData.getInstance().charAt(GameEntity.SWITCH) == 'R')
-			addCommand(new AutoSwitchRightReverse());
+		if (GBGameData.getInstance().charAt(GameEntity.SWITCH) == 'L')
+			addCommand(new AutoSwitchLeftReverse());
 		else
 			addCommand(new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL)));
 	}

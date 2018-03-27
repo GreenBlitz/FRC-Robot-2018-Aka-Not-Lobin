@@ -14,9 +14,14 @@ public class TalonManager {
 	
 	public static final void stupidShitThatCTREMakesMeDo() {
 		for (SmartTalon smartTalon : m_talons) {
-			if (!smartTalon.wasSetThisIterration())
+			if (!smartTalon.wasSet())
 				smartTalon.set(smartTalon.getLastValue());
 			smartTalon.newIterration();
 		}
+	}
+	
+	public static final void setAllTalons(double power) {
+		for (SmartTalon smartTalon : m_talons)
+			smartTalon.set(power);
 	}
 }
