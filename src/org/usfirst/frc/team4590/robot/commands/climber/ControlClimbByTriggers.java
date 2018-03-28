@@ -13,12 +13,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ControlClimbByTriggers extends Command {
 
+	private boolean wasMovedOnce; // use small power until one of 
+							//the triggers have been pressed
+	
 	private static final double CLIMB_MULTIPLIER = 1;
 	private SmartJoystick m_JS;
 	
     public ControlClimbByTriggers(SmartJoystick JS) {
         requires(Climber.getInstance());
         m_JS = JS;
+        wasMovedOnce = true;
     }
 
     protected void execute() {
@@ -32,7 +36,7 @@ public class ControlClimbByTriggers extends Command {
 //    	else if (Climber.getInstance().isOnBottom())
 //    		power = rightTrigger;
 //    	else 
-    	power = rightTrigger - leftTrigger;
+    	power = rightTrigger - leftTrigger - Climber.slowPower;
     	
     	Climber.getInstance().setPower(power * CLIMB_MULTIPLIER);
     }

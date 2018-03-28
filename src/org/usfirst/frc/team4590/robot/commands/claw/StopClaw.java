@@ -13,14 +13,21 @@ public class StopClaw extends Command {
 	}
 	
 	@Override
+	protected void initialize() {
+		System.out.println("Stopped claw power");
+	}
+	
+	
+	@Override
 	protected void execute() {
 		boolean shouldUnlockDownward = Pitcher.getInstance().getDirection() == PitcherDirection.DOWN
 			 	&& Pitcher.getInstance().isSafeToOpenDownward(),
 			 	 shouldUnlockUpward = Pitcher.getInstance().getDirection() == PitcherDirection.UP
 		   		 && Pitcher.getInstance().isSafeToOpenUpward(),
 		   		 shouldUnlockStationary = Pitcher.getInstance().getDirection() == PitcherDirection.STATIONARY;
-
-		setInterruptible(shouldUnlockStationary || shouldUnlockUpward || shouldUnlockDownward);
+		
+		/* could be what stops the autonomouse scale command*/ 
+//		setInterruptible(shouldUnlockStationary || shouldUnlockUpward || shouldUnlockDownward);
 		
 		Claw.getInstance().stop();
 	}

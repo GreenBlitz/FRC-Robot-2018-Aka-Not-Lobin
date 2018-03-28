@@ -226,7 +226,7 @@ public class EnvironmentPort {
 	 * @param value
 	 */
 	public void putNumber(String name, double value) {
-		SmartDashboard.putNumber(name, value);
+//		SmartDashboard.putNumber(name, value);
 	}
 	
 	public enum ePortFunctions{

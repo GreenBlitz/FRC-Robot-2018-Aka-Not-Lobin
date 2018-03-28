@@ -2,15 +2,18 @@ package org.usfirst.frc.team4590.robot.commands.claw;
 
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
 
-class HoldCube extends ClosingClawCommand {
+import edu.wpi.first.wpilibj.command.Scheduler;
 
-	HoldCube() {
+public class StrongCloseClaw extends ClosingClawCommand {
+	
+	public StrongCloseClaw() {
+		super(1);
 		requires(Claw.getInstance());
 	}
 	
 	@Override
 	protected void initialize() {
-		System.out.println("Holding claw");
+		Claw.getInstance().setVoltageCompensation(3.5);
 	}
 	
 	@Override
@@ -20,13 +23,12 @@ class HoldCube extends ClosingClawCommand {
 	
 	@Override
 	protected boolean isFinished() {
-//		return !Claw.getInstance().isClosed();
-		return false;
+		return isTimedOut();
 	}
 	
 	@Override
 	protected void end() {
-		System.out.println("Stopped Holding claw");
-		Claw.getInstance().stop();
+		Claw.getInstance().setVoltageCompensation(Claw.VOLTAGE_LIMIT);
+		Scheduler.getInstance().add(new AcceleratedCloseClaw(500, true));
 	}
-}
+}	

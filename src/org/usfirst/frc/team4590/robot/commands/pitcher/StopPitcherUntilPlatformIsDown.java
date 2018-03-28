@@ -11,7 +11,7 @@ public class StopPitcherUntilPlatformIsDown extends Command implements PitcherCo
 
 	public StopPitcherUntilPlatformIsDown() {
 		requires(Pitcher.getInstance());
-		setInterruptible(false);
+//		setInterruptible(false);
 	}
 	
 	@Override

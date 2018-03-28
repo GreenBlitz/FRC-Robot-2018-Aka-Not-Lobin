@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4590.robot.commands.pitcher;
 	
-import org.usfirst.frc.team4590.robot.Robot;
 import org.usfirst.frc.team4590.robot.commands.claw.AcceleratedCloseClaw;
 import org.usfirst.frc.team4590.robot.commands.claw.ClosingClawCommand;
+import org.usfirst.frc.team4590.robot.commands.claw.StrongCloseClaw;
 import org.usfirst.frc.team4590.robot.commands.intake.Collect;
 import org.usfirst.frc.team4590.robot.subsystems.Cannon;
 import org.usfirst.frc.team4590.robot.subsystems.Claw;
@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MovePitcher extends Command implements PitcherCommand {
 	private static final double ABSOLUTE_TOLARENCE = 5d/180, 
-								UP_MOVE_POWER = 0.7,
+								UP_MOVE_POWER = 1,
 								DOWN_MOVE_POWER = 0.7,
 								STATIC_POWER = 0.15,
 								GRAVITY_DEFLECTOR_POWER = 0.3,
@@ -27,7 +27,7 @@ public class MovePitcher extends Command implements PitcherCommand {
 
 	private static final long DOWN_ITERRATIONS = 2;
 	
-	private final PitcherState m_unchangedToState;
+	private final PitcherState m_originalToState;
 	private long m_start;
 	private PitcherState m_toState;
 	private double m_toPosition, m_toAngle;
@@ -35,13 +35,16 @@ public class MovePitcher extends Command implements PitcherCommand {
 	
 	public MovePitcher(PitcherState toState) {
 		requires(Pitcher.getInstance());
-		m_unchangedToState = toState;
+		m_originalToState = toState;
 	}
 	
 	@Override
 	protected void initialize() {
-		System.out.println(m_unchangedToState.name());
-		setToState(m_unchangedToState);
+		iterration = 0;
+		m_start = System.currentTimeMillis();
+		
+		System.out.println("Trying to move to: " + m_originalToState.name());
+		setToState(m_originalToState);
 		
 //		if (Robot.getInstance().isEndgame() && m_toState != PitcherState.SWITCH_BACKWARD) {
 //			setToState(PitcherState.SWITCH_BACKWARD);
@@ -61,21 +64,25 @@ public class MovePitcher extends Command implements PitcherCommand {
 		if (m_toState == PitcherState.PLATE) 
 			Scheduler.getInstance().add(new Collect(0.1, 2000));
 			
-		iterration = 0;
-		
-		m_start = System.currentTimeMillis();
-		
 		boolean goingUp = m_toPosition > Pitcher.getInstance().getPosition(),
 				isClosing = Claw.getInstance().getCurrentCommand() instanceof ClosingClawCommand;
 		
 		Pitcher.getInstance().setDirection(goingUp ? PitcherDirection.UP : PitcherDirection.DOWN);
 		
 		if(isClosing) {
-			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, true));
+			Scheduler.getInstance().add(new StrongCloseClaw());
 		}
 		else if (((goingUp && Pitcher.getInstance().getAngle() < 90 && m_toAngle > 90) ||
-				(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120)))
+				(!goingUp && Pitcher.getInstance().getAngle() > 120 && m_toAngle < 120))) {
 			Scheduler.getInstance().add(new AcceleratedCloseClaw(500, Pitcher.getInstance().getAngle() > 170));
+		}
+		
+		if (Pitcher.getInstance().getLastState() == PitcherState.SWITCH_BACKWARD &&
+				m_toAngle < 90 &&
+				Claw.getInstance().isOpen())
+				setToState(PitcherState.SWITCH_BACKWARD);
+		
+		System.out.println("Moving to: " + m_toState.name());
 	}
 
 	@Override
@@ -84,7 +91,7 @@ public class MovePitcher extends Command implements PitcherCommand {
 	
 		double movePower = goingUp ? UP_MOVE_POWER : DOWN_MOVE_POWER;
 		
-		if (iterration < DOWN_ITERRATIONS && !goingUp)
+		if (iterration < DOWN_ITERRATIONS && m_toAngle < 90)
 			Pitcher.getInstance().setPower(0.4);
 		else if (!goingUp && Pitcher.getInstance().getAngle() < 90) {
 			Pitcher.getInstance().setPower(0);
@@ -126,6 +133,11 @@ public class MovePitcher extends Command implements PitcherCommand {
 		System.out.println("Moved pitcher to " + m_toState.name());
 		Scheduler.getInstance().add(new HoldPitcher(m_toState));
 	}
+	
+	//DO NOT CHANGE THIS.
+	//if this command is interrupted we don't want it to call end.
+	@Override
+	protected void interrupted() {}
 	
 	@Override
 	protected boolean isFinished() {

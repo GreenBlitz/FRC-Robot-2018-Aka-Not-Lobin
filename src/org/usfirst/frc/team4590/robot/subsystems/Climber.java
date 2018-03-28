@@ -13,6 +13,7 @@ public class Climber extends Subsystem {
 	private static Climber instance;
 	
 	private static double defaultPower = 1;
+	public static final double slowPower = 0.05;s // change to private and make getter
 	
 	private SmartTalon motor;
 	

@@ -1,12 +1,11 @@
 package org.usfirst.frc.team4590.utils.commandChain;
 
-import java.lang.reflect.Field;
+import java.util.Optional;
 import java.util.Vector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class CommandChain extends Command {
-	
 	
 	public CommandChain() {
 		addCommand(new Command() {protected boolean isFinished() {return true;}});
@@ -31,7 +30,7 @@ public class CommandChain extends Command {
 		for (ParallelCommand parallelCommand : m_commands) {
 			if (parallelCommand.contains(after)) {
 				try {
-				m_commands.get(m_commands.indexOf(parallelCommand) + 1).addCommand(toRun);
+				m_commands.get(m_commands.indexOf(parallelCommand) + 1).addParallel(toRun);
 				} catch (Exception e) {
 					m_commands.add(new ParallelCommand(toRun));
 				}
@@ -50,11 +49,14 @@ public class CommandChain extends Command {
 	}
 	
 	protected final void addParallel(Command toRun, Command with) {
-		for (ParallelCommand parallelCommand : m_commands) {
-			if (parallelCommand.contains(with)) {
-				parallelCommand.addCommand(toRun);
-				return;
-			}
+		//Filters only elements which contain with -> takes the first one of them 
+		//(if there are any of them hence the name Optional <=> We don't know if it exists
+		Optional<ParallelCommand> found = m_commands.stream().filter(x -> x.contains(with)).findAny();
+		//If it exists
+		if (found.isPresent()){
+			//get the actual value and do shit
+			found.get().addParallel(toRun);
+			return;
 		}
 		throw new IllegalArgumentException("The Command " + with.getName() + 
 				" is not a part of this command chain. please enter it beforehand.");
@@ -62,6 +64,7 @@ public class CommandChain extends Command {
 
 	@Override
 	protected final void initialize() {
+		System.out.println("Running command chain: " + getName());
 		if (!m_hasRan){
 			m_hasRan = true;
 			onFirstRun();
@@ -75,15 +78,16 @@ public class CommandChain extends Command {
 	@Override
 	protected final void execute() {
 		ParallelCommand currentCommands = m_commands.get(m_currentCommand);
-		if (currentCommands.isFinished()) {
+		if (currentCommands.isCompleted()) {
 			m_currentCommand++;
-			if (!isFinished()) {
+			if (!isFinished())
 				m_commands.get(m_currentCommand).runCommands();
-				return;
-			}
 		}
 	}
 	
+	public void end(){
+		System.out.println(getClass().getCanonicalName() + " Has Finished!");
+	}
 	@Override
 	protected final boolean isFinished() {
 		return m_currentCommand == m_commands.size();

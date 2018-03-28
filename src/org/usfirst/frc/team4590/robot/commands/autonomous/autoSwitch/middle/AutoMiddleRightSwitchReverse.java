@@ -18,7 +18,12 @@ public class AutoMiddleRightSwitchReverse extends CommandChain {
 		Command grabCube = new PickupCube(),
 				driveToMiddle = new DriveForwardsByMeters(-((Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)/3)),
 				rotateBy90 = new RotateByDegrees(90, false),
-				driveSidewaysToPlate = new DriveForwardsByMeters(-(Lengths.SWITCH_MIDDLE_TO_PLATE_MIDDLE + 0.35), 90, true, false),
+				/*
+				 * PathFactory path = new PathFactory().connectLine(0.0,-0.0,0.01).connectLine(1.36,-0.03,0.01);
+ArenaMap map = new ArenaMap();
+path.construct(map);
+				 */
+				driveSidewaysToPlate = new DriveForwardsByMeters(-(Lengths.SWITCH_MIDDLE_TO_PLATE_MIDDLE /*+ 0.35*/), 90, true, false),
 				rotateBack = new RotateByDegrees(0, false),
 				driveToPlate = new DriveStraightByMoveValue(-0.7, 0, 2000),
 				pitcherSwitchBack = new MovePitcher(PitcherState.SWITCH_BACKWARD),

@@ -23,10 +23,10 @@ public class AutoRightRightSwitchReverse extends CommandChain {
 				throwCube = new ShootToSwitch(1000);
 		
 		addCommand(grabCube);
-		addParallel(driveVertical);
+		addSequential(driveVertical);
 		addSequential(rotate);
 		addSequential(driveHorizontal);
-		addParallel(pitcherSwitchBack);
+		addSequential(pitcherSwitchBack);
 		addSequential(throwCube);
 	}
 }

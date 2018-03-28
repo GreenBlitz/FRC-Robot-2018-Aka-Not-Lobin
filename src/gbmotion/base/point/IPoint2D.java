@@ -276,7 +276,7 @@ public interface IPoint2D {
 	}
 	
 	default void toDashboard(String s) {
-		SmartDashboard.putNumber(s + " x coordinate", getX());
-		SmartDashboard.putNumber(s + " y coordinate", getY());
+//		SmartDashboard.putNumber(s + " x coordinate", getX());
+//		SmartDashboard.putNumber(s + " y coordinate", getY());
 	}
 }

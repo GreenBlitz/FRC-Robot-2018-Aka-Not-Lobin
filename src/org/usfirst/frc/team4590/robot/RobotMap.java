@@ -44,12 +44,16 @@ public class RobotMap {
 	public static final int PIN_SOLENOID_FORWARD_PORT = 0,
 							PIN_SOLENOID_BACKWARD_PORT = 1;
 	
+	//NewClaw
+	public static final int NEWCLAW_SOLENOID_FORWARD_PORT = 0,
+							NEWCLAW_SOLENOID_BACKWARD_PORT = 0;
+	
 	//Enum values
 	//Pitcher
 	
 	public static final double PITCHER_COLLECT_VALUE = 0d/180,
 							   PITCHER_SWITCH_FORWARD_VALUE = 75d/180, //70
-							   PITCHER_SWITCH_BACKWARD_VALUE = 160d/180,
+							   PITCHER_SWITCH_BACKWARD_VALUE = 155d/180,
 							   PITCHER_PLATE_VALUE = 180d/180,
 							   PITCHER_EXCHANGE_VALUE = 20d/180;
 	

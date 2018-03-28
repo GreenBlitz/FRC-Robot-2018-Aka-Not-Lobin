@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
+import org.usfirst.frc.team4590.robot.commands.intake.KeepRollingInCube;
 import org.usfirst.frc.team4590.utils.CTRE.SmartTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -28,7 +29,9 @@ public class Intake extends Subsystem {
 		SmartDashboard.putNumber("Intake power", defaultPower);
 	}
 
-    public void initDefaultCommand() {}
+    public void initDefaultCommand() {
+    	setDefaultCommand(new KeepRollingInCube());
+    }
     
     public void update() {
     	SmartDashboard.putString("Intake current command", getCurrentCommandName());

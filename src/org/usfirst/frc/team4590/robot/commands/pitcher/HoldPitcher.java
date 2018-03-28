@@ -28,7 +28,11 @@ public class HoldPitcher extends Command implements PitcherCommand {
     
     @Override
     protected void initialize() {
+    	boolean isClosing = Claw.getInstance().getCurrentCommand() instanceof ClosingClawCommand;
+    	if (isClosing)
+    		Scheduler.getInstance().add(new AcceleratedCloseClaw(500, true));
     	Pitcher.getInstance().setDirection(PitcherDirection.STATIONARY);
+    	Pitcher.getInstance().setLastState(m_state);
     }
 
     protected void execute() {
@@ -36,12 +40,17 @@ public class HoldPitcher extends Command implements PitcherCommand {
     		double equalibriumOffset = Pitcher.getInstance().getAngle() - Pitcher.EQUALIBRIUM_ANGLE,
     			   power = Math.abs(STATIC_POWER * Math.sin(Math.toRadians(equalibriumOffset)));
     		Pitcher.getInstance().setPower(equalibriumOffset > 0 ? power : -power);
-   
+    		
     		if (Math.abs(m_position - Pitcher.getInstance().getPosition()) > ABSOLUTE_TOLARENCE)
     			Scheduler.getInstance().add(new MovePitcher(m_state));
     	}
     	else 
     		Pitcher.getInstance().stop();
+    }
+    
+    @Override
+    protected void end() {
+    	Pitcher.getInstance().stop();
     }
 
     protected boolean isFinished() {

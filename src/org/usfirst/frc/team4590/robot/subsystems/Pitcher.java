@@ -28,10 +28,10 @@ public class Pitcher extends Subsystem {
 							   UP_STATE = 0.133;
 	
 	private PitcherDirection m_direction = PitcherDirection.STATIONARY;
-	
 	private SmartTalon motor;
 	private AnalogPotentiometer potentiometer;
 	private AnalogInput analog;
+	private PitcherState m_lastState;
 	
 	public static Pitcher getInstance() {
 		return instance;
@@ -125,5 +125,13 @@ public class Pitcher extends Subsystem {
     
     public PitcherDirection getDirection() {
     	return m_direction;
+    }
+    
+    public void setLastState(PitcherState lastState) {
+    	m_lastState = lastState;
+    }
+    
+    public PitcherState getLastState() {
+    	return m_lastState;
     }
 }

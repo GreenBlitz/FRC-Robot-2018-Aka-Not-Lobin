@@ -3,20 +3,17 @@ package org.usfirst.frc.team4590.utils.commandChain;
 import java.util.Vector;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class ParallelCommand extends CommandGroup{
+public class ParallelCommand {
 	private Vector<Command> m_commands = new Vector<Command>();
-
 	
 	public ParallelCommand(Command command) {
-		addCommand(command);
+		addParallel(command);
 	}
 	
-	public void addCommand(Command command){
-		addParallel(command);
+	public void addParallel(Command command) {
 		m_commands.add(command);
 	}
 
@@ -29,18 +26,17 @@ public class ParallelCommand extends CommandGroup{
 	}
 	
 	public void runCommands() {
-		Scheduler.getInstance().add(this);
+		m_commands.forEach(x ->
+			Scheduler.getInstance().add(x));
 	}
 	
+	public boolean isCompleted() {
+		return !m_commands.stream().filter(x ->
+			x.isRunning()).findAny().isPresent();
+	}
 	
 	public boolean doesRequire(Subsystem subsystem) {
-		for (Command command : m_commands) {
-			if (command.doesRequire(subsystem))
-				return true;
-		}
-		return false;
-	}
-	public boolean isFinished(){
-		return super.isFinished();
+		return m_commands.stream().filter(x ->
+			x.doesRequire(subsystem)).findAny().isPresent();
 	}
 }

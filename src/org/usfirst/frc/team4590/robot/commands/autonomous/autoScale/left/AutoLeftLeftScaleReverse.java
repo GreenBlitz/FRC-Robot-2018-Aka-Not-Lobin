@@ -1,21 +1,11 @@
 package org.usfirst.frc.team4590.robot.commands.autonomous.autoScale.left;
 
-import org.usfirst.frc.team4590.robot.commands.chassis.ArcadeDriveByValues;
 import org.usfirst.frc.team4590.robot.commands.chassis.DriveForwardsByMeters;
-import org.usfirst.frc.team4590.robot.commands.chassis.RotateByDegrees;
-import org.usfirst.frc.team4590.robot.commands.commandChains.OpenClawAndShootToScale;
 import org.usfirst.frc.team4590.robot.commands.commandChains.PickupCube;
-import org.usfirst.frc.team4590.robot.commands.intake.ShootToSwitch;
 import org.usfirst.frc.team4590.robot.commands.pin.ShootToScale;
-import org.usfirst.frc.team4590.robot.commands.pitcher.MovePitcher;
 import org.usfirst.frc.team4590.utils.commandChain.CommandChain;
-import org.usfirst.frc.team4590.utils.enums.PitcherState;
-import org.usfirst.frc.team4590.utils.gameData.Lengths;
 
 import edu.wpi.first.wpilibj.command.Command;
-import gbmotion.commands.APPCMove;
-import gbmotion.path.ArenaMap;
-import gbmotion.path.PathFactory;
 
 public class AutoLeftLeftScaleReverse extends CommandChain {
 
@@ -36,12 +26,10 @@ public class AutoLeftLeftScaleReverse extends CommandChain {
 		
 		Command grabCube = new PickupCube(),
 				driveToScale = new DriveForwardsByMeters(9, 0, true, false),
-				pitcherToPlate = new MovePitcher(PitcherState.PLATE),
 				shootToScale = new ShootToScale();
 		
 		addCommand(grabCube);
 		addParallel(driveToScale, grabCube);
-		addParallel(pitcherToPlate, grabCube);
 		addSequential(shootToScale);
 	}
 }

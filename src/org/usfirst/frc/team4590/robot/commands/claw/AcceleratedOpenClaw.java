@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AcceleratedOpenClaw extends Command {
 
 	private static final long DEFAULT_TIMEOUT = 1500;
-	private static final double MAX_VOLTAGE = 3;
+	private static final double MAX_VOLTAGE = 3.5;
 	
 	private long m_decelTime, m_startTime, m_timeout;
 	
@@ -24,7 +24,6 @@ public class AcceleratedOpenClaw extends Command {
 	@Override
 	protected void initialize() {
 		m_startTime = System.currentTimeMillis();
-		System.out.println("Atsmon was wrong");
 	}
 	
 	@Override

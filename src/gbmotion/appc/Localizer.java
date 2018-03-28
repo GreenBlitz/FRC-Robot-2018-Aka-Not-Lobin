@@ -252,15 +252,19 @@ public class Localizer implements Input<IPoint2D> {
 				ePort.putNumber("angle", angleChange);
 				edu.wpi.first.wpilibj.networktables.NetworkTable motion = edu.wpi.first.wpilibj.networktables.NetworkTable
 						.getTable("motion");
-				motion.putNumber("locX", m_location.getX());
-				motion.putNumber("locY", m_location.getY());
-				motion.putNumber("locAngle", m_location.getDirection());
-				motion.putNumber("gyroAngle", Math.toRadians(m_navx.getYaw()));
-				// System.out.println(gyro.getYaw());
-				// motion.putNumber("pathLength", 0);
-				motion.putNumber("encLeft", getLeftDistance());
-				motion.putNumber("encRight", getRightDistance());
-				motion.putBoolean("isUpdated", true);
+				
+				boolean sendGuydebugger = false;
+				if (sendGuydebugger){
+					motion.putNumber("locX", m_location.getX());
+					motion.putNumber("locY", m_location.getY());
+					motion.putNumber("locAngle", m_location.getDirection());
+					motion.putNumber("gyroAngle", Math.toRadians(m_navx.getYaw()));
+					// System.out.println(gyro.getYaw());
+					// motion.putNumber("pathLength", 0);
+					motion.putNumber("encLeft", getLeftDistance());
+					motion.putNumber("encRight", getRightDistance());
+					motion.putBoolean("isUpdated", true);
+				}
 			} else {
 				resetSelf();
 			}

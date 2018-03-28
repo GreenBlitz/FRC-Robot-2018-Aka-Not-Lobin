@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.usfirst.frc.team4590.robot.commands.autonomous.autoLine.AutoSwitchLineLeft;
 import org.usfirst.frc.team4590.robot.commands.autonomous.autoLine.AutoSwitchLineRight;
-import org.usfirst.frc.team4590.robot.commands.autonomous.autoScale.right.AutoRightRightScaleReverse;
-import org.usfirst.frc.team4590.robot.commands.autonomous.autoScale.right.AutoRightScaleReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoScale.left.AutoScaleLeftReverse;
+import org.usfirst.frc.team4590.robot.commands.autonomous.autoScale.right.AutoScaleRightReverse;
 import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.left.AutoSwitchLeftReverse;
 import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.middle.AutoSwitchMiddleReverse;
 import org.usfirst.frc.team4590.robot.commands.autonomous.autoSwitch.right.AutoSwitchRightReverse;
@@ -87,17 +87,17 @@ public class Robot extends IterativeRobot {
 		
 		m_autonomousChooser = new SendableChooser<>();
 		m_autonomousChooser.addDefault("Auto Motion Test", new AutoMotionTest());
+
 		m_autonomousChooser.addObject("REVERSE AutoSwitch left", new AutoSwitchLeftReverse());
 		m_autonomousChooser.addObject("REVERSE AutoSwitch middle", new AutoSwitchMiddleReverse());
 		m_autonomousChooser.addObject("REVERSE AutoSwitch right", new AutoSwitchRightReverse());
+		
 		m_autonomousChooser.addObject("REVERSE AutoLine left", new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)));
 		m_autonomousChooser.addObject("REVERSE AutoLine middle", new AutoReverseDriveMiddle());
 		m_autonomousChooser.addObject("REVERSE AutoLine right", new DriveForwardsByMeters(-(Lengths.SWITCH_FROM_ALLIANCE_WALL - Lengths.ROBOT_LENGTH)));
-		m_autonomousChooser.addObject("REVERSE AutoSwitchLine left", new AutoSwitchLineLeft());
-		m_autonomousChooser.addObject("REVERSE AutoSwitchLine right", new AutoSwitchLineRight());
-		m_autonomousChooser.addObject("Auto guyde shit test", new AutoMotionSwitchMiddleReverse());
 
-		m_autonomousChooser.addObject("Auto Scale Right", new AutoRightRightScaleReverse());
+		m_autonomousChooser.addObject("Auto Scale Right", new AutoScaleRightReverse());
+		m_autonomousChooser.addObject("Auto Scale Left", new AutoScaleLeftReverse());
 		
 		m_autonomousChooser.addObject("stupid shit", new ArcadeDriveByValues(-0.7, 0, 4000));
 		

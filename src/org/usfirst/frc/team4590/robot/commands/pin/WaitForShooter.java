@@ -14,14 +14,18 @@ public class WaitForShooter extends Command {
 	public WaitForShooter() {
 		requires(Pin.getInstance());
 	}
-
+//
 	@Override
 	protected void execute() {
+		// make it hard coded inside another command?
+		// this boolean requires a bunch of shit but i cant see why it wont be true&&true
+		// after we execute AcceleratedOpenClaw
 		boolean isSafeToShoot = (Pitcher.getInstance().getCurrentState() == PitcherState.PLATE && 
 								Claw.getInstance().isOpen()) || 
 								Pitcher.getInstance().getAngle() < 90;
-
-		setInterruptible(Cannon.getInstance().isReadyToShoot() && isSafeToShoot);
+		
+		/* could be blocking the shooter on autonomouse */
+//		setInterruptible(Cannon.getInstance().isReadyToShoot() && isSafeToShoot);
 	
 		SmartDashboard.putBoolean("isSafeToShoot", isSafeToShoot);
 		SmartDashboard.putBoolean("waitforshooter isinterruptble", isInterruptible());
@@ -29,6 +33,6 @@ public class WaitForShooter extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return false; 
 	}
 }

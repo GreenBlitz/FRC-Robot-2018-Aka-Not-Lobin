@@ -16,8 +16,8 @@ public class Claw extends Subsystem {
 
 	private static Claw instance;
 
-	public static final int CURRENT_LIMIT = 0, //27
-							 VOLTAGE_LIMIT = 2;
+	public static final double CURRENT_LIMIT = 0, //27
+							 VOLTAGE_LIMIT = 3.5; // plus 0.5
 
 	private SmartTalon motor;
 	private DigitalInput openMicroswitch;

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4590.robot.subsystems;
 
 import org.usfirst.frc.team4590.robot.RobotMap;
-import org.usfirst.frc.team4590.robot.commands.pin.WaitForShooter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -41,7 +40,8 @@ public class Pin extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new WaitForShooter());
+//		setDefaultCommand(new WaitForShooter());
+		
 	}
 
 	public void setPiston(Value value) {
